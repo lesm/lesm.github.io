@@ -8,3 +8,8 @@ group :development do
 end
 # For feed.xml.builder
 gem 'builder', '~> 3.0'
+
+# Sass toolkid
+gem 'bitters'
+gem 'bourbon'
+gem 'neat'
