@@ -1,0 +1,19 @@
+<br/>
+<ul>
+  <% data.authors.each do |author| %>
+  <li style="list-style-type:none;">
+    <a href="#">
+      <img src="<%= author.photo %>" id="user" width='50px;' height='50px;'alt="Luis Silva" />   E. Silva Mtz.
+    </a>
+    <a href="<%=author.twitter %>" target="_blank" style="margin-left:400px;">
+      <img src="/images/twitter.png" class='social' alt=" " />
+    </a>
+    <a href="<%=author.github %>" target="_blank" style="margin-left:10px;">
+      <img src="/images/github.png" class='social' alt=" " />
+    </a>
+    <a href="<%=author.facebook %>" target="_blank" style="margin-left:10px;">
+      <img src="/images/facebook.png" class='social' alt=" " />
+    </a>
+  </li>
+<% end %>
+</ul>
