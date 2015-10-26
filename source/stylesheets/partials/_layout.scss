@@ -1,20 +1,22 @@
 #main {
   @include outer-container;
-}
 
-ul {
-  font-size: 1em;
-  font-weight: 500;
+  ul {
+    font-weight: 500;
+    list-style-type: none;
 
-  li {
-    margin: .5em 0;
+    li {
+      margin: .5em 0;
+      h1 {
+        font-size: 1.5em;
+      }
+      span {
+        display: inline-block;
 
-    span {
-      display: inline-block;
-
-      &:before {
-        content: '/';
-        margin: 0 .3em;
+        &:before {
+          content: '/';
+          margin: 0 .3em;
+        }
       }
     }
   }
