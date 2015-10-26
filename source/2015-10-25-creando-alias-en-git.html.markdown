@@ -9,24 +9,15 @@ tags: git
 Ultimamente eh estado trabajando más con git. Y se me hacia algo tedioso estar escribiendo continuamente los comando:  
 
 ```
-git add .
+
+  git add .
+  git commit -a -m 'algún mensage'
+  git commit -m 'algún mensage'
+  git status
+  git log
+  git diff
+
 ```  
-
-```
-git commit -a -m 'algún mensage'
-```  
-
-```
-git status
-```  
-
-```
-git log
-``` 
-
-```
-git diff
-```
 
 Así que decidí crear unos alias. Git trae la opción de crear alias para sus comandos.   
 
@@ -35,49 +26,26 @@ Así que decidí crear unos alias. Git trae la opción de crear alias para sus c
 En el fichero **~/.gitconfig** el cual, es el archivo de configuración de Git. Ya debe de tener, un nombre y un correo, esto si es que ya trabajas con Git.  
 
 ```
-[user]
-```  
 
-```
-name: 'Luis Silva'
-```  
-
-```
-email: 'correo@gmail.com'
-```
-
-```
-...
+  [user]
+    name: 'Luis Silva'
+    email: 'correo@gmail.com'
+    ...
+  
 ```
 
 Al final de archivo agrega 
 
 ```
-[alias]
-```  
 
-```
-cam = commit -a -m
-```
+  [alias]
+    cam = commit -a -m
+    cm = commit -m
+    l = log
+    s = status
+    a = add
+    d = diff
 
-```
-cm = commit -m
-```
-
-```
-l = log
-```
-
-```
-s = status
-```
-
-```
-a = add
-```
-
-```
-d = diff
 ```
 
 Ahora puedes hacer uso de los alias 
@@ -85,53 +53,27 @@ Ahora puedes hacer uso de los alias
 #### Con alias  
   
 ```
-git cam 'mensage del commit'
-```
 
-```
-git cm 'mensage del commit'
-```
+  git cam 'mensage del commit'
+  git cm 'mensage del commit'
+  git l
+  git s
+  git a .
+  git d
 
-```
-git l
-```
-
-```
-git s
-```
-
-```
-git a .
-```
-
-```
-git d
 ```   
 
 ## Sin alias  
   
 ```
-git commit -a -m 'mensage del commit'
-```
 
-```
-git commit -m 'mensage del commit'
-```
+  git commit -a -m 'mensage del commit'
+  git commit -m 'mensage del commit'
+  git log
+  git status
+  git add .
+  git diff
 
-```
-git log
-```
-
-```
-git status
-```
-
-```
-git add .
-```
-
-```
-git diff
 ```
 
 Puedes personalizar los alias a tu manera
