@@ -113,7 +113,7 @@ activate :deploy do |deploy|
 end
 
 activate :disqus do |d|
-  d.shortname = "notsohermetic"
+  d.shortname = "silmardll"
 end
 
 activate :syntax
