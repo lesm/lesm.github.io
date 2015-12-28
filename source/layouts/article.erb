@@ -1,21 +1,12 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <title>Silmar.dll<%= ' - ' + current_article.title unless current_article.nil? %></title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'>
-    <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
-    <%= stylesheet_link_tag "all" %>
-    <%= stylesheet_link_tag "syntax" %>
-  </head>
-  <body>
+<% wrap_layout :layout do %>
+  <article>
     <div id="main" role="main">
-      <%= partial "partials/nav" %>
+        <h1 class="heading">
+          <%= current_article.title %><br>
+          <h5><time><%= current_article.date.strftime('%b %e %Y') %></time><h5>
+        </h1>
       <%= yield %>
       <%= disqus %>
-      <%= partial "partials/footer" %>
     </div>
-  </body>
-</html>
+  </article>
+<% end %>
