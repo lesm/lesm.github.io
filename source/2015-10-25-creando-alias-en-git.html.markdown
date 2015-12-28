@@ -4,8 +4,6 @@ date: 2015-10-25
 tags: git 
 ---
 
-### Trabajando con Git 
-
 Ultimamente eh estado trabajando más con git. Y se me hacia algo tedioso estar escribiendo continuamente los comando:  
 
 ```

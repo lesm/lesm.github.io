@@ -3,7 +3,6 @@ title: Instalar zsh con oh-my-zsh
 date: 2015-12-28 07:05 UTC
 tags: zsh,chakra
 ---
-# Instalar zsh en chakra "Fermi"
 
 Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de probar lo nuevo de KDE con plasma 5. Y aunque cada fin de semestre realizo una instalación limpia, no me había decidido por crear unos post para tener a donde recurrir la próxima vez, ya que siempre tengo que estar configurando e instalando todo de nuevo. Y también con la ídea de que estos post puedan ser de ayuda para alguien más.
 
