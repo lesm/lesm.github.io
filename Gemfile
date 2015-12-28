@@ -6,6 +6,7 @@ gem 'middleman-syntax'
 gem 'middleman-deploy'
 gem 'middleman-disqus'
 gem 'pygments.rb'
+gem 'nokogiri', '~> 1.6', '>= 1.6.7.1'
 
 group :development do
   gem 'middleman-livereload'
