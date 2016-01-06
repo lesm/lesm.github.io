@@ -49,7 +49,7 @@ Ahora ejecutamos:
 
 Para asignar a zsh como nuestro interprete por default. Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
 
-# Instalar oh-my-zsh
+## Instalar oh-my-zsh
 
 Después de haber reiniciado nuestro sistema, procedemos a instalar **oh-my-zsh**.
 

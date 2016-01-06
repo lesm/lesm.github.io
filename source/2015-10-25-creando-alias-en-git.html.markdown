@@ -19,7 +19,7 @@ Ultimamente eh estado trabajando más con git. Y se me hacia algo tedioso estar 
 
 Así que decidí crear unos alias. Git trae la opción de crear alias para sus comandos.   
 
-### Como hacerlo
+## Como hacerlo
 
 En el fichero **~/.gitconfig** el cual, es el archivo de configuración de Git. Ya debe de tener, un nombre y un correo, esto si es que ya trabajas con Git.  
 
@@ -48,7 +48,7 @@ Al final de archivo agrega
 
 Ahora puedes hacer uso de los alias 
 
-#### Con alias  
+## Con alias  
   
 ```
 
