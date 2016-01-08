@@ -1,5 +1,5 @@
 ---
-title: instalar ruby con rvm
+title: Instalar ruby con rvm
 date: 2016-01-08 19:12 UTC
 tags: ruby, rvm, zsh
 ---
