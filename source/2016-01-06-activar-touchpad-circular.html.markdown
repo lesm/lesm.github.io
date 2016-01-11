@@ -7,7 +7,7 @@ tags: touchpad, chakra
 Desde hace ya un tiempo vengo utilizando el touchpad de mi lap, con la opción **CircularScrolling**, la cual ofrece la funcionalidad de usar el scroll de manera circular.  
 Está opción me gusta mucho porque facilita el desplazamiento sobre páginas de bastante contenido, o al estar leyendo uno que otro libro (pdf) o documentos de texto.  
 
-### ¿Cómo funciona?
+## ¿Cómo funciona?
 
 ```
 

@@ -6,7 +6,7 @@ tags: conky, linux
 
 **Conky** es un monitor del sistema y sirve para mostrarnos cualquier información en nuestro escritorio. Está licenciado bajo GPL y funciona en Linux y BSD.
 
-Para instalarlo:
+## Instalar Conky:
 
 ```
 
@@ -25,6 +25,8 @@ Ejecutamos conky desde la línea de comandos:
 Veremos que nos muestra una interfaz no muy amigable :(
 
 ![conky_n](./images/conky/normal.png)
+
+## Personalizar Conky
 
 **Conky** tiene unas variables para poder personalizarlo a nuestro gusto, estos son unos link donde se muestran las variables que se pueden usar en conky.
 
@@ -47,6 +49,9 @@ Solo se necesita crear el archivo y agregar está coniguración
 ```
 
 Puedes personalizar conky a tu manera..
+
+
+## Iniciar conky después de 10 segundos 
 
 En esta nueva versión de **Chakra Fermi** tuve un pequeño problema. Pues al agregar conky, a las aplicaciones iniciadas automáticamente, conky desaparece :( después de pasar la pantalla de login.
 

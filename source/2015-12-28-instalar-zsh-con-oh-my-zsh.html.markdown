@@ -6,7 +6,7 @@ tags: zsh,chakra
 
 Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de probar lo nuevo de KDE con plasma 5. Y aunque cada fin de semestre realizo una instalación limpia, no me había decidido por crear unos post para tener a donde recurrir la próxima vez, ya que siempre tengo que estar configurando e instalando todo de nuevo. Y también con la ídea de que estos post puedan ser de ayuda para alguien más.
 
-Primero instalamos **zsh** en este caso con pacman.
+## Instalar zsh
 
 ```
 
