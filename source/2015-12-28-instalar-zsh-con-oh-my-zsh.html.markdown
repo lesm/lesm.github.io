@@ -14,15 +14,19 @@ Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de proba
 
 ```
 
-Podemos ejecutar **zsh** para utilizarlo, pero al cerrar la consola, y volver abrirla notaremos que no inicia con **zsh** sino con **bash**.
+Podemos ejecutar **zsh** para utilizarlo: 
 
 ```
 
   zsh
 
 ```
+Al ser la primera vez que utilizamos **zsh**, mostrara un mensaje por el momento solo tecleamos la letra **q** (para que no creé ningún archivo)
 
-Lo que tenemos que hacer es cambiar la configuración y poner a zsh por default, para eso aremos uso del comando **chsh** con el tag **-l** lo cual nos devolverá los diferentes intérpretes que tiene nuestro sistema, incluyendo **zsh**. Lo que necesitamos de esto es la ubicación de zsh, para así asignar a zsh como intérprete por default.
+También al cerrar la consola, y volver abrirla notaremos que no inicia con **zsh** sino con **bash**.
+
+
+Lo que tenemos que hacer es cambiar la configuración y poner a **zsh** por default, para eso haremos uso del comando **chsh** con el tag **-l** lo cual nos devolverá los diferentes intérpretes que tiene nuestro sistema, incluyendo **zsh**. Lo que necesitamos de esto es la ubicación de zsh, para así asignar a zsh como intérprete por default.
 
 
  
@@ -39,7 +43,7 @@ Veremos algo así:
   /bin/zsh
 
 ```
-Ahora ejecutamos:  
+Ahora ejecutamos la línea de abajo, para asignar a **zsh** como nuestro interprete por default. 
 
 ```
 
@@ -47,7 +51,8 @@ Ahora ejecutamos:
 
 ```
 
-Para asignar a zsh como nuestro interprete por default. Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
+Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
+
 
 ## Instalar oh-my-zsh
 
