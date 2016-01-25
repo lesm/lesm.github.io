@@ -45,7 +45,7 @@ Entramos al directorio
 
 ```
 
-Editamos el archivo agregando la línea previamente mensionada.
+Editamos el archivo agregando la línea previamente mencionada.
 
 ```
 
@@ -71,11 +71,11 @@ Aveces también utilizo la combinación de teclas:
 
 ```
 
-  ctrl + alt + F1
+  ctrl + alt + F3
 
 ```
 
-Para logearme y hacer un reboot, o matar el proceso por el cual se ha colgado mi distro. Esta opción es muy útil cuando sabemos que a causado que nuestro sistema se quedo colgado, Pues solo podemos matar el proceso que causo el problema y seguir trabajando, ya que aveces tenemos abierto otros programas, documentos etc. Y eso de volver abrir todo de nuevo :-(
+Para logearme y hacer un reboot, o matar el proceso por el cual se ha colgado mi distro. Esta opción es muy útil cuando sabemos que programa causo que el se quedo colgado, Al saber esto solo queda terminar el proceso que causo el problema y seguir trabajando, ya que aveces tenemos abierto otros programas, documentos etc. Y eso de volver abrir todo nuevamente es mucho tiempo. :-(
 
 Ya que al hacer
 
