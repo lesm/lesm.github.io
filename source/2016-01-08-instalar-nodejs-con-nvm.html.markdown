@@ -27,7 +27,7 @@ O con wget:
 ```
 
 
-Ejecutamos la siguiente orden, para hacer que la consola reconozca el comando nvm.
+Ejecutamos la siguiente orden, para hacer que la consola reconozca el comando nvm. O cerrarmos la consola y la volvemos abrir para que reconozca los cambios y detecte a **nvm**
 
 ```
 
@@ -69,11 +69,11 @@ Para poder usar una versión de nodejs se necesita hacer lo siguiente:
 
 ```
 
-  nvm use 5.0
+  nvm use 5.3.0
 
 ```
 
-Donde **5.0** es el número de versión que necesitamos usar. Teniendo en cuenta que está versión de **nodejs** solo será reconocida en la consola donde se ejecutó la instrucción, y al momento de cerrar la consola, dejara de ser accesible la versión de nodejs.
+Donde **5.3.0** es el número de versión que necesitamos usar. Teniendo en cuenta que está versión de **nodejs** solo será reconocida en la consola donde se ejecutó la instrucción, y al momento de cerrar la consola, dejara de ser accesible la versión de nodejs.
 
 ## Asignar una versión de nodejs por default
 
@@ -81,8 +81,6 @@ Al asignar una versión de **nodejs** por default está se pueda ejecutar desde 
 
 ```
 
-  nvm alias default 5.4 
+  nvm alias default 5.3.0 
 
 ```
-
-Donde **5.4** es el número de la versión de nodejs.
