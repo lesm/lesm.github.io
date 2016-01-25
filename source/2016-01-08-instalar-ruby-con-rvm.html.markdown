@@ -52,7 +52,7 @@ De tal manera que debe de quedar similar a esto:
 
 ![bash_profile](./images/rvm/bash_profile.png) 
 
-Ahora toca cargar la configuración de **rvm** a nuestra consola de la siguiente manera: 
+Ahora toca hacer que la consola reconozca el comando **rvm** ejecutando la siguiente línea, o cerrando la consola y al volver abrirla esta reconocerá el comando **rvm**
 
 ```
 
