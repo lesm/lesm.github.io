@@ -1,8 +1,27 @@
 <nav>
-<ul>
-  <li>
-    <%= link_to "Trabajando en Linux", "index.html", :class => 'blog-title' %>
-  </li>
-</ul>
-      <%= partial 'partials/author' %>
+  <ul class='in-line'>
+    <% data.authors.each do |author| %>
+      <li>
+        <a href="/">
+          <img src="<%= author.photo %>" id="user" alt="Luis Silva" />
+        </a>
+      </li>
+      <li>
+      </li>
+      <li style="margin-left:140px;">
+        <%= link_to "Trabajando en Linux", "index.html", :class => 'blog-title' %>
+      </li>
+      <li>
+        <a href="<%=author.twitter %>" style="margin-left:140px;">
+          <img src="/images/author/twitter.png" class='social' alt=" " />
+        </a>
+        <a href="<%=author.github %>">
+          <img src="/images/author/github.png" class='social' alt=" " />
+        </a>
+        <a href="<%=author.facebook %>">
+          <img src="/images/author/facebook.png" class='social' alt=" " />
+        </a>
+      </li>
+    <% end %>
+  </ul>
 </nav>

@@ -10,9 +10,7 @@ Está opción me gusta mucho porque facilita el desplazamiento sobre páginas de
 ## ¿Cómo funciona?
 
 ```
-
   Option "CircularScrolling"     "on"
-
 ```
 Funciona solo con un dedo, sobre todo el contorno del touchpad
 
@@ -21,40 +19,30 @@ Funciona solo con un dedo, sobre todo el contorno del touchpad
 Como estoy trabajando en **Chakra** el archivo a modificar **"50-synaptics.conf"** se encuentra dentro del directorio:
 
 ```
-
   /usr/share/X11/xorg.conf.d
-
 ```
 
 En otras distribuciones se puede encontrar dentro del directorio: 
 
 ```
-
   /etc/X11/xorg.conf.d
-
 ```
 Entramos al directorio 
 
 ```
-  
   cd /usr/share/X11/xorg.conf.d
-
 ```
 
 Abrimos el archivo 50-synaptics.conf
 
 ```
-
   sudo vim 50-synaptics.conf
-
 ```
 
 Agregamos 
 
 ```
-
   Option "CircularScrolling"     "on" 
-
 ```
 
 En esta imagen se puede ver que la opción se ha agregado en la línea 17

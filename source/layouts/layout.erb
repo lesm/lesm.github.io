@@ -13,12 +13,12 @@
     <%= favicon_tag 'images/favicon.png', :rel => 'shortcut icon'%>
   </head>
   <body>
-    
     <div id="main" role="main">
       <%= partial 'partials/nav' %>
       <%= yield %>
+    </div>
+    <div class="big-column">
       <%= partial 'partials/footer' %>
     </div>
-    
   </body>
 </html>

@@ -9,17 +9,13 @@ tags: conky, linux
 ## Instalar Conky:
 
 ```
-
   sudo pacman -S conky 
-
 ```
 
 Ejecutamos conky desde la línea de comandos:
 
 ```
-
   conky
-
 ```
 
 Veremos que nos muestra una interfaz no muy amigable :(
@@ -43,9 +39,7 @@ Solo se necesita crear el archivo y agregar está coniguración
 [configuración de conky](https://gist.github.com/lesm/fb9f125b2a3400f1f878)
 
 ```
-
   vim ~/.conkyrc
-
 ```
 
 Puedes personalizar conky a tu manera..
@@ -64,23 +58,17 @@ Y en vez de agregar directamente a conky a las aplicaciones iniciadas automátic
 El script se puede crear en:
  
 ```
-
   sudo vim /opt/start_conky.sh
-
 ```
 
 O directamente en:
 
 ```
-
   sudo vim /usr/bin/start_conky.sh
-
 ```
 
 Al script se le tiene que dar permisos de ejecución 
 
 ```
-
   sudo chmod +x /opt/start_conky.sh 
-
 ```

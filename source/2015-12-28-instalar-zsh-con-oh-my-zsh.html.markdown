@@ -9,17 +9,13 @@ Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de proba
 ## Instalar zsh
 
 ```
-
   sudo pacman -S zsh
-
 ```
 
 Podemos ejecutar **zsh** para utilizarlo: 
 
 ```
-
   zsh
-
 ```
 Al ser la primera vez que utilizamos **zsh**, mostrara un mensaje por el momento solo tecleamos la letra **q** (para que no creé ningún archivo)
 
@@ -31,24 +27,18 @@ Lo que tenemos que hacer es cambiar la configuración y poner a **zsh** por defa
 
  
 ```
-
   chsh -l
-
 ```
 Veremos algo así:  
 
 ```
-
   /bin/bash  
   /bin/zsh
-
 ```
 Ahora ejecutamos la línea de abajo, para asignar a **zsh** como nuestro interprete por default. 
 
 ```
-
   chsh -s /bin/zsh
-
 ```
 
 Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
@@ -62,9 +52,7 @@ Ejecutamos:
 
 
 ```
-
   sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
 ```
 
 Cerramos la terminal y volvemos abrirla para ver los cambios. Y con esto ya tendremos instalado **zsh con oh-my-zsh en chakra**.
