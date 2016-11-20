@@ -2,29 +2,35 @@
 pageable: true
 per_page: 6
 ---
-<% if paginate && num_pages > 1 %>
-  <p>Page <%= page_number %> of <%= num_pages %></p>
 
-  <% if prev_page %>
-    <p><%= link_to 'Previous page', prev_page %></p>
+<div class="articles-column">
+  <% if paginate && num_pages > 1 %>
+    <p>Página <%= page_number %> de <%= num_pages %></p>
+
+    <% if prev_page %>
+      <p><%= link_to 'Anterior página', prev_page %></p>
+    <% end %>
   <% end %>
-<% end %>
-
+</div>
 
 <div class="articles-column">
   <% page_articles.each_with_index do |article, i| %>
       <article id="preview">
-        <h1><%= link_to article.title, article %></h1>
+        <h2><%= link_to article.title, article %></h2>
         <h5><%= article.date.strftime('%b %e') %></h5>
         <%= article.summary(200) %>
+        <div class='right'>
+          <%= link_to 'Leer más...', article , class: 'bottom-read-more'%>
+        </div>
       </article>
   <% end %>
+</div>
 
-  <div class='next-page'>
+<div class="articles-column">
+  <div class='next-page right'>
     <% if paginate %>
-      paginate enable
       <% if next_page %>
-        <p><%= link_to 'Next page', next_page %></p>
+        <p><%= link_to 'Siguiente página', next_page %></p>
       <% end %>
     <% end %>
   </div>

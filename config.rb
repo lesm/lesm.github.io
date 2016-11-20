@@ -24,9 +24,9 @@ activate :blog do |blog|
   blog.calendar_template = "calendar.html"
 
   # Enable pagination
-  # blog.paginate = true
-  # blog.per_page = 10
-  # blog.page_link = "page/{num}"
+  blog.paginate = true
+  blog.per_page = 6
+  blog.page_link = "page/{num}"
 end
 
 page "/feed.xml", layout: false
@@ -100,10 +100,6 @@ configure :build do
 
   # Or use a different image path
   # set :http_prefix, "/Content/images/"
-end
-
-configure :development do
-  activate :livereload
 end
 
 activate :deploy do |deploy|

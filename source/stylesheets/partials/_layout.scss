@@ -5,11 +5,12 @@ body{
 #preview {
   @include span-columns(4);
   @include omega(3n);
+  margin: 5px 10px 50px 10px;
 }
 
 #article {
-  @include span-columns(8);
-  @include shift(2);
+  @include span-columns(6);
+  @include shift(3);
   padding: 0px 15px 15px 15px;
 
   ul {
@@ -33,10 +34,25 @@ body{
   }
 }
 
-.next-page {
-  padding-top: 330px;
-  margin-top: 330px;
+.right {
   text-align: right;
+}
+
+.next-page {
+  padding-top: 20px;
+}
+
+.bottom-read-more {
+  background-color: #22D3CF;
+  border: 0;
+  color: #fff;
+  padding: 5px 10px;
+}
+
+.bottom-read-more:hover {
+  background-color: #fff;
+  border: 0;
+  color: #22D3CF;
 }
 
 .col-12 {
@@ -57,6 +73,6 @@ body{
 }
 
 .articles-column {
-  @include span-columns(8 of 12);
-  @include shift(2);
+  @include span-columns(10 of 12);
+  @include shift(1);
 }
