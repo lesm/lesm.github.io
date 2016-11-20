@@ -2,6 +2,13 @@ body{
   background-color: $background-color;
 }
 
+pre.highlight {
+  overflow: auto;
+  border: solid 1px #000;
+  background: #22D3CF;
+  color: #000;
+}
+
 #preview {
   @include span-columns(4);
   @include omega(3n);
