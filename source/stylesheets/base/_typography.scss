@@ -11,6 +11,9 @@ h1{
   line-height: $heading-line-height;
   margin: 0 0 $small-spacing;
   color: $font-color-h1;
+  &:hover {
+    color: #355e98;
+  }
 }
 h2{
   font-family: $heading-font-family;
