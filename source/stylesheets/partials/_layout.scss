@@ -18,7 +18,7 @@ pre.highlight {
 #article {
   @include span-columns(6);
   @include shift(3);
-  padding: 0px 15px 15px 15px;
+  padding: 50px 15px 15px 15px;
 
   ul {
     font-weight: 500;
