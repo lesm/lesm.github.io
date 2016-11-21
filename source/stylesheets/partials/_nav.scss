@@ -1,12 +1,9 @@
-nav {
-  border-bottom: 35px solid $base-border-color;
-  margin: 10px 0px 0px 0px;
-  text-align: center;
+@import "bootstrap";
 
-  ul {
-    display: inline-block;
-    margin-bottom: em(10);
-  }
+.navbar-inverse {
+  padding: 10px 350px 10px 430px;
+  background-color: #4b4e51;
+  border-color: #4b4e51;
 }
 
 .blog-title {
@@ -18,27 +15,38 @@ nav {
 }
 
 #user {
-  height: 70px;
-  width: 70px;
+  height: 50px;
+  width: 50px;
   background-repeat: no-repeat;
   background-position: 50%;
   border-radius: 50%;
   background-size: 100% auto;
 }
 .social {
-  width: 45px;
-  height: 45px;
+  width: 25px;
+  height: 25px;
 }
 
-.in-line {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  li {
-    float: left;
-    a {
-      text-align: center;
-    }
+@media (max-width: 767px) {
+  .navbar-inverse {
+    margin: 0px;
+    padding: 10px 20px 10px 20px;
+  }
+
+  .blog-title {
+    font-family: $base-font-title;
+    font-size: 1.4em;
+    font-weight: 700;
+    letterspacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .flex-center {
+    display: block;
+    text-align: left;
+  }
+
+  .post {
+    padding-bottom: 50px;
   }
 }

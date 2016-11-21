@@ -3,83 +3,31 @@ body{
 }
 
 pre.highlight {
-  overflow: auto;
+  overflow: auto !important;
   border: solid 1px #000;
   background: #22D3CF;
   color: #000;
+  max-height: 340px;
+}
+pre code {
+  overflow: auto !important;
+  white-space: nowrap !important;
 }
 
-#preview {
-  @include span-columns(4);
-  @include omega(3n);
-  margin: 5px 10px 50px 10px;
+.post {
+  margin: 10px 5px 10px 5px;
+  padding-bottom: 10px;
+  border: solid 1px #000;
 }
 
-#article {
-  @include span-columns(6);
-  @include shift(3);
-  padding: 50px 15px 15px 15px;
-
-  ul {
-    font-weight: 500;
-    list-style-type: none;
-
-    li {
-      margin: .5em 0;
-      h1 {
-        font-size: 1.5em;
-      }
-      span {
-        display: inline-block;
-
-        &:before {
-          content: '/';
-          margin: 0 .3em;
-        }
-      }
-    }
-  }
+.flex-center {
+  display: flex;
+  justify-content: center;
 }
 
-.right {
-  text-align: right;
-}
-
-.next-page {
-  padding-top: 20px;
-}
-
-.bottom-read-more {
+.read {
   background-color: #22D3CF;
   border: 0;
   color: #fff;
   padding: 5px 10px;
-}
-
-.bottom-read-more:hover {
-  background-color: #fff;
-  border: 0;
-  color: #22D3CF;
-}
-
-.col-12 {
-  @include span-columns(12 of 12);
-}
-
-.col-10-offset-2 {
-  @include span-columns(10 of 12);
-  @include shift(2);
-}
-
-.large-column {
-  @include span-columns(8 of 12);
-}
-
-.small-column {
-  @include span-columns(4 of 12);
-}
-
-.articles-column {
-  @include span-columns(10 of 12);
-  @include shift(1);
 }

@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
     <title>Silmar.dll<%= ' - ' + current_article.title unless current_article.nil? %></title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -10,15 +11,17 @@
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
     <%= stylesheet_link_tag 'all' %>  
     <%= stylesheet_link_tag 'syntax' %>  
+    <%= javascript_include_tag "all" %>
     <%= favicon_tag 'images/favicon.png', :rel => 'shortcut icon'%>
   </head>
   <body>
-    <div id="main" role="main">
-      <%= partial 'partials/nav' %>
+    <%= partial 'partials/nav' %>
+
+    <br>
+    <div class='container' role="main">
       <%= yield %>
     </div>
-    <div class="big-column">
-      <%= partial 'partials/footer' %>
-    </div>
+
+    <%= partial 'partials/footer' %>
   </body>
 </html>

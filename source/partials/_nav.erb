@@ -1,27 +1,36 @@
-<nav>
-  <ul class='in-line'>
-    <% data.authors.each do |author| %>
-      <li>
-        <a href="/">
-          <img src="<%= author.photo %>" id="user" alt="Luis Silva" />
-        </a>
-      </li>
-      <li>
-      </li>
-      <li style="margin-left:100px;">
-        <%= link_to "Trabajando en Linux", "index.html", :class => 'blog-title' %>
-      </li>
-      <li>
-        <a href="<%=author.twitter %>" style="margin-left:100px;">
-          <img src="/images/author/twitter.png" class='social' alt=" " />
-        </a>
-        <a href="<%=author.github %>">
-          <img src="/images/author/github.png" class='social' alt=" " />
-        </a>
-        <a href="<%=author.facebook %>">
-          <img src="/images/author/facebook.png" class='social' alt=" " />
-        </a>
-      </li>
-    <% end %>
-  </ul>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/">
+        <img class="img-responsive img-circle" src="<%= data.authors.first.photo %>" id="user" alt="Luis Silva" />
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li> <%= link_to "Trabajando en Linux", "index.html", :class => 'blog-title' %> </li>
+        <li>
+          <a href="<%=data.authors.first.twitter %>">
+            <img src="/images/author/twitter.png" class='social' alt=" " />
+          </a>
+        </li>
+        <li>
+          <a href="<%=data.authors.first.github %>">
+            <img src="/images/author/github.png" class='social' alt=" " />
+          </a>
+        </li>
+        <li>
+          <a href="<%=data.authors.first.facebook %>">
+            <img src="/images/author/facebook.png" class='social' alt=" " />
+          </a>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div>
 </nav>

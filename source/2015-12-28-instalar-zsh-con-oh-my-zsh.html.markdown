@@ -57,5 +57,5 @@ Ejecutamos:
 
 Cerramos la terminal y volvemos abrirla para ver los cambios. Y con esto ya tendremos instalado **zsh con oh-my-zsh en chakra**.
 
-![Alt text](./images/zsh/zsh.png)
+[![Alt text](./images/zsh/zsh.png)](./images/zsh/zsh.png)
 

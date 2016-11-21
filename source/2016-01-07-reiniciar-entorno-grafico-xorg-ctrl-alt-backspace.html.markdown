@@ -45,7 +45,7 @@ Editamos el archivo agregando la línea previamente mencionada.
 
 Quedando el archivo de la siguiente manera.
 
-![Alt text](./images/xorg/keyboard.png)
+[![Alt text](./images/xorg/keyboard.png)](./images/xorg/keyboard.png)
 
 
 Ahora solo queda reiniciar el sistema y probar que todo funcione

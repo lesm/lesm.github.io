@@ -27,7 +27,7 @@ O iniciar **tmux** con nombre de la sesión:
 
 Se vera algo así:
 
-![tmux-normal](./images/tmux/tmux-normal.png)
+[![tmux-normal](./images/tmux/tmux-normal.png)](./images/tmux/tmux-normal.png)
 
 
 ## Personalizar Tmux
@@ -74,11 +74,11 @@ Editar el archivo:
 
 Antes:
 
-![default-antes](./images/tmux/default-antes.png)
+[![default-antes](./images/tmux/default-antes.png)](./images/tmux/default-antes.png)
 
 Después:
 
-![default-despues](./images/tmux/default-despues.png)
+[![default-despues](./images/tmux/default-despues.png)](./images/tmux/default-despues.png)
 
 
 ## Archivo de configuración de tmux 
@@ -116,8 +116,7 @@ Ahora toca crear el siguiente archivo **~/.tmux.conf**  y agregar las siguientes
 
 Ahora tmux se vera de está manera:
 
-![tmux-personalizado](./images/tmux/tmux-personalizado.png)
-
+[![tmux-personalizado](./images/tmux/tmux-personalizado.png)](./images/tmux/tmux-personalizado.png)
 
 ## Iniciar tmux automáticamente 
 
@@ -125,7 +124,6 @@ Ahora tmux se vera de está manera:
 Agregar las siguientes dos líneas, al final de **~/.zshrc** o **~/.bashrc** dependiendo de que uses 
 
 ```
-  [[ $- != *i*  ]] && return
-  [[ $TERM != screen*  ]] && exec tmux -2
+  [[ $- != *i*  ]] && return [[ $TERM != screen*  ]] && exec tmux -2
 ```
 

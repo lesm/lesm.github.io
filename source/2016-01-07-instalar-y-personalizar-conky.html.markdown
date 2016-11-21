@@ -20,7 +20,7 @@ Ejecutamos conky desde la línea de comandos:
 
 Veremos que nos muestra una interfaz no muy amigable :(
 
-![conky_n](./images/conky/normal.png)
+[![conky_n](./images/conky/normal.png)](./images/conky/normal.png)
 
 ## Personalizar Conky
 
@@ -32,7 +32,7 @@ Veremos que nos muestra una interfaz no muy amigable :(
 
 Actualmente así es como se mira conky en mi computadora
 
-![conky_p](./images/conky/personalizada.png)
+[![conky_p](./images/conky/personalizada.png)](./images/conky/personalizada.png)
 
 Solo se necesita crear el archivo y agregar está coniguración
   

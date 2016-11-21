@@ -47,7 +47,7 @@ Agregamos
 
 En esta imagen se puede ver que la opción se ha agregado en la línea 17
 
-![Alt text](./images/touchpad/scroll.png)
+[![Alt text](./images/touchpad/scroll.png)](./images/touchpad/scroll.png)
 
 Solo queda guardar los cambios y reiniciar nuestro sistema.  Reiniciar el sistema porque no sé si exista algún servicio para reiniciar el touchpad, de lo contrario solo se podría reiniciar el servicio (^-^).
 

@@ -49,7 +49,7 @@ Si ejecutamos:
   nvm list
 ```
 
-![nvm-list](./images/nvm/nvm-list.png)
+[![nvm-list](./images/nvm/nvm-list.png)](./images/nvm/nvm-list.png)
 
 Muestra las diferentes versiones de nodejs que tenemos instaladas.
 
