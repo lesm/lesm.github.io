@@ -1,9 +1,17 @@
 @import "bootstrap";
 
 .navbar-inverse {
-  padding: 10px 30px 10px 430px;
+  padding: 10px 250px 0px 320px;
   background-color: #4b4e51;
   border-color: #4b4e51;
+}
+.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
 }
 
 .blog-title {

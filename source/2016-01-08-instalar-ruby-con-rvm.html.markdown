@@ -4,96 +4,91 @@ date: 2016-01-08 19:12 UTC
 tags: ruby, rvm, zsh
 ---
 
- **Ruby Version Manager** (RVM) rvm es una herramienta de línea de comandos que permite instalar diferentes versiones de ruby fácilmente. 
+ **Ruby Version Manager** (RVM) rvm es una herramienta de línea de comandos que permite instalar diferentes versiones de ruby fácilmente.
 
-Antes de empezar a instalar rvm   
+Antes de empezar a instalar rvm
 
-## Si utilizas zsh 
+## Si utilizas zsh
 
 Debemos modificar **~/.zshrc** de lo contrario mostrara un mensaje de error.
 
-Antes: 
+Antes:
 
 ```
-  export PATH="/usr/local/bin:/usr/bin:/bin:/..." 
+export PATH="/usr/local/bin:/usr/bin:/bin:/..."
 ```
 
-Después: 
+Después:
 
 ```
-  export PATH="$PATH:/usr/local/bin:/usr/bin:/..." 
+export PATH="$PATH:/usr/local/bin:/usr/bin:/..."
 ```
 
-## Instalar rvm 
+## Instalar rvm
 
 Ejecutamos la siguiente orden para instalar rvm:
 
 ```
-  \curl -sSL https://get.rvm.io | bash -s stable 
+\curl -sSL https://get.rvm.io | bash -s stable
 ```
 
-Al final veremos un mensaje que nos pide modificar el archivo **~/.bash_profile**.  
+Al final veremos un mensaje que nos pide modificar el archivo **~/.bash_profile**.
 
-Abrimos el archivo para editarlo. 
+Abrimos el archivo para editarlo.
 
 ```
-  sudo vim ~/.bash_profile 
+sudo vim ~/.bash_profile
 ```
 
-De tal manera que debe de quedar similar a esto: 
+De tal manera que debe de quedar similar a esto:
 
 [![bash_profile](./images/rvm/bash_profile.png)](./images/rvm/bash_profile.png)
 
 Ahora toca hacer que la consola reconozca el comando **rvm** ejecutando la siguiente línea, o cerrando la consola y al volver abrirla esta reconocerá el comando **rvm**
 
 ```
-  source ~/.bash_profile 
+source ~/.bash_profile
 ```
 
-Con esto ya tenemos instalado **rvm** podemos verificarlo de la siguiente manera: 
+Con esto ya tenemos instalado **rvm** podemos verificarlo de la siguiente manera:
 
 ```
-  rvm -v 
+rvm -v
 ```
 
-## Instalar ruby 
+## Instalar ruby
 
-Ejecutamos: 
-
-```
-  source ~/.rvm/scripts/rvm 
-```
-
-Y después instalamos  ruby, de esta manera podemos instalar diferentes versiones de ruby, sin tener conflicto entre las mismas. 
+Ejecutamos:
 
 ```
-  rvm install ruby-2.2.3 
+source ~/.rvm/scripts/rvm
 ```
 
-##Como usar rvm 
-
-Al tener instalado ruby con rvm. Se puede tener una configuración especifica por proyecto, por ejemplo. 
+Y después instalamos  ruby, de esta manera podemos instalar diferentes versiones de ruby, sin tener conflicto entre las mismas.
 
 ```
-  mkdir proyecto_uno && cd proyecto_uno 
-
-  echo '2.2.3' > .ruby-version 
-
-  echo 'proyecto_uno' > .ruby-gemset 
+rvm install ruby-2.2.3
 ```
 
-Ahora si tenemos un proyecto que está con ruby-2.2.2 
+##Como usar rvm
 
-Instalamos ruby con rvm: 
+Al tener instalado ruby con rvm. Se puede tener una configuración especifica por proyecto, por ejemplo.
 
 ```
-  rvm install ruby-2.2.2 
+mkdir proyecto_uno && cd proyecto_uno
+echo '2.2.3' > .ruby-version
+echo 'proyecto_uno' > .ruby-gemset
+```
 
-  mkdir proyecto_dos && cd proyecto_dos 
+Ahora si tenemos un proyecto que está con ruby-2.2.2
 
-  echo '2.2.2' > .ruby-version 
+Instalamos ruby con rvm:
 
-  echo 'proyecto_dos' > .ruby-gemset
+```
+rvm install ruby-2.2.2
+mkdir proyecto_dos && cd proyecto_dos
+echo '2.2.2' > .ruby-version
+echo 'proyecto_dos' > .ruby-gemset
 ```
 
 Al momento de entrar al directorio del proyecto, se cargara la versión de ruby que está en el archivo **.ruby-version** y el **.ruby-gemset** del proyecto, de está manera resulta más fácil llevar el control de los proyectos con diferentes versiones de ruby, al igual que con las gemas, pues cada **.ruby-gemset** es independiente del otro, de tal manera que cada proyecto tiene sus propias gemas, cuando se trabaja con rails.

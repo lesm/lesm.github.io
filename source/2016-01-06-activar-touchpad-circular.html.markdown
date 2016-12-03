@@ -4,13 +4,13 @@ date: 2016-01-06 21:52 UTC
 tags: touchpad, chakra
 ---
 
-Desde hace ya un tiempo vengo utilizando el touchpad de mi lap, con la opción **CircularScrolling**, la cual ofrece la funcionalidad de usar el scroll de manera circular.  
-Está opción me gusta mucho porque facilita el desplazamiento sobre páginas de bastante contenido, o al estar leyendo uno que otro libro (pdf) o documentos de texto.  
+Desde hace ya un tiempo vengo utilizando el touchpad de mi lap, con la opción **CircularScrolling**, la cual ofrece la funcionalidad de usar el scroll de manera circular.
+Está opción me gusta mucho porque facilita el desplazamiento sobre páginas de bastante contenido, o al estar leyendo uno que otro libro (pdf) o documentos de texto.
 
 ## ¿Cómo funciona?
 
 ```
-  Option "CircularScrolling"     "on"
+Option "CircularScrolling"     "on"
 ```
 Funciona solo con un dedo, sobre todo el contorno del touchpad
 
@@ -19,30 +19,30 @@ Funciona solo con un dedo, sobre todo el contorno del touchpad
 Como estoy trabajando en **Chakra** el archivo a modificar **"50-synaptics.conf"** se encuentra dentro del directorio:
 
 ```
-  /usr/share/X11/xorg.conf.d
+/usr/share/X11/xorg.conf.d
 ```
 
-En otras distribuciones se puede encontrar dentro del directorio: 
+En otras distribuciones se puede encontrar dentro del directorio:
 
 ```
-  /etc/X11/xorg.conf.d
+/etc/X11/xorg.conf.d
 ```
-Entramos al directorio 
+Entramos al directorio
 
 ```
-  cd /usr/share/X11/xorg.conf.d
+cd /usr/share/X11/xorg.conf.d
 ```
 
 Abrimos el archivo 50-synaptics.conf
 
 ```
-  sudo vim 50-synaptics.conf
+sudo vim 50-synaptics.conf
 ```
 
-Agregamos 
+Agregamos
 
 ```
-  Option "CircularScrolling"     "on" 
+Option "CircularScrolling"     "on"
 ```
 
 En esta imagen se puede ver que la opción se ha agregado en la línea 17

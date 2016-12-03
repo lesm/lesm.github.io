@@ -7,7 +7,7 @@ per_page: 6
   <% if paginate && num_pages > 1 %>
     <p>Página <%= page_number %> de <%= num_pages %></p>
     <% if prev_page %>
-      <p><%= link_to 'Anterior página', prev_page, class: 'btn read' %></p>
+      <p><%= link_to 'Anterior página', prev_page, class: 'btn btn-primary' %></p>
     <% end %>
   <% end %>
 </div>
@@ -36,7 +36,7 @@ per_page: 6
 <div class="col-md-12">
   <% if paginate %>
     <% if next_page %>
-      <p class='pull-right'><%= link_to 'Siguiente página', next_page, class: 'btn read'%></p>
+      <p class='pull-right'><%= link_to 'Siguiente página', next_page, class: 'btn btn-primary'%></p>
     <% end %>
   <% end %>
 </div>

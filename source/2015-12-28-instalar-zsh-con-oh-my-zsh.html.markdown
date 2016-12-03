@@ -9,13 +9,13 @@ Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de proba
 ## Instalar zsh
 
 ```
-  sudo pacman -S zsh
+sudo pacman -S zsh
 ```
 
-Podemos ejecutar **zsh** para utilizarlo: 
+Podemos ejecutar **zsh** para utilizarlo:
 
 ```
-  zsh
+zsh
 ```
 Al ser la primera vez que utilizamos **zsh**, mostrara un mensaje por el momento solo tecleamos la letra **q** (para que no creé ningún archivo)
 
@@ -25,20 +25,20 @@ También al cerrar la consola, y volver abrirla notaremos que no inicia con **zs
 Lo que tenemos que hacer es cambiar la configuración y poner a **zsh** por default, para eso haremos uso del comando **chsh** con el tag **-l** lo cual nos devolverá los diferentes intérpretes que tiene nuestro sistema, incluyendo **zsh**. Lo que necesitamos de esto es la ubicación de zsh, para así asignar a zsh como intérprete por default.
 
 
- 
-```
-  chsh -l
-```
-Veremos algo así:  
 
 ```
-  /bin/bash  
-  /bin/zsh
+chsh -l
 ```
-Ahora ejecutamos la línea de abajo, para asignar a **zsh** como nuestro interprete por default. 
+Veremos algo así:
 
 ```
-  chsh -s /bin/zsh
+/bin/bash
+/bin/zsh
+```
+Ahora ejecutamos la línea de abajo, para asignar a **zsh** como nuestro interprete por default.
+
+```
+chsh -s /bin/zsh
 ```
 
 Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
@@ -48,11 +48,11 @@ Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
 
 Después de haber reiniciado nuestro sistema, procedemos a instalar **oh-my-zsh**.
 
-Ejecutamos:  
+Ejecutamos:
 
 
 ```
-  sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
 Cerramos la terminal y volvemos abrirla para ver los cambios. Y con esto ya tendremos instalado **zsh con oh-my-zsh en chakra**.
