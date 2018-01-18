@@ -25,7 +25,7 @@ activate :blog do |blog|
 
   # Enable pagination
   blog.paginate = true
-  blog.per_page = 6
+  blog.per_page = 3
   blog.page_link = "page/{num}"
 end
 
@@ -103,7 +103,7 @@ configure :build do
 end
 
 activate :deploy do |deploy|
-  deploy.method = :git
+  deploy.deploy_method = :git
   deploy.branch = 'master'
   deploy.build_before = true
 end

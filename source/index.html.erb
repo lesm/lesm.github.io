@@ -1,42 +1,103 @@
 ---
 pageable: true
-per_page: 6
+per_page: 3
 ---
 
-<div class="col-md-12">
-  <% if paginate && num_pages > 1 %>
-    <p>Página <%= page_number %> de <%= num_pages %></p>
-    <% if prev_page %>
-      <p><%= link_to 'Anterior página', prev_page, class: 'btn btn-primary' %></p>
+<div class="row">
+  <div class="col-md-8">
+    <% if paginate && num_pages > 1 %>
+      <p>Página <%= page_number %> de <%= num_pages %></p>
     <% end %>
-  <% end %>
-</div>
+  </div>
 
-<div class="col-md-12">
-  <% pages = page_articles.count / 6 %>
-  <% (0..pages).each do |n| %>
-    <div class="flex-center">
-      <% n = n+2 unless n.zero? %>
-      <% page_articles[n..(n+2)].each do |article| %>
-        <div class="col-md-4 post">
-          <article>
-            <h2><%= link_to article.title, article %></h2>
-            <h5><%= article.date.strftime('%b %e') %></h5>
-            <%= article.summary(200) %>
-            <div class='pull-right'>
-              <%= link_to 'Leer más...', article , class: 'btn btn-primary'%>
-            </div>
-          </article>
-        </div>
+  <div class="col-md-8">
+    <% page_articles.each do |article| %>
+      <h2>
+        <%= link_to article.title, article %>
+      </h2>
+      <p class="lead">
+        by <a href="<%=data.authors.first.github %>">Luis Silva</a>
+      </p>
+      <p>
+        <span class="glyphicon glyphicon-time"></span>
+        <time><%= article.date.strftime('%b %e %Y') %></time>
+      </p>
+      <hr>
+      <img class="img-responsive" src="./images/image_post.jpg" alt="">
+      <hr>
+      <p> <%= article.summary(200) %> </p>
+      <% link_to article, class: 'btn btn-primary' do %>
+        Leer más...
+        <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
-    </div>
-  <% end %>
-</div>
-
-<div class="col-md-12">
-  <% if paginate %>
-    <% if next_page %>
-      <p class='pull-right'><%= link_to 'Siguiente página', next_page, class: 'btn btn-primary'%></p>
+      <hr>
     <% end %>
-  <% end %>
+  </div>
+
+  <div class="col-md-4">
+    <div class="well">
+      <h4>Articulos Recientes</h4>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-unstyled">
+            <li>
+              <ol>
+                <% blog.articles.first(15).each do |article| %>
+                  <li>
+                    <%= link_to article.title, article %>
+                    <span><%= article.date.strftime('%b %e') %></span>
+                  </li>
+                <% end %>
+              </ol>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="well">
+      <h4>Tags</h4>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="list-unstyled">
+            <li>
+              <ul class="list-inline">
+                <% blog.tags.each do |tag, articles| %>
+                  <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
+                <% end %>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-8">
+    <% if paginate && num_pages > 1 %>
+      <p>Página <%= page_number %> de <%= num_pages %></p>
+    <% end %>
+
+    <ul class="pager">
+      <li class="previous">
+        <% if paginate && num_pages > 1 && prev_page %>
+          <% link_to prev_page, class: '' do%>
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            Anterior página
+          <% end %>
+        <% end %>
+      </li>
+      <li class="next">
+        <% if paginate %>
+          <% if next_page %>
+            <% link_to next_page, class: '' do %>
+              Siguiente página
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      </li>
+    </ul>
 </div>

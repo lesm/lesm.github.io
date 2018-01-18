@@ -1,12 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'middleman', '~> 3.3.12'
-gem 'middleman-blog', '~> 3.5.3'
+gem 'middleman', '~> 4.2', '>= 4.2.1'
+gem 'middleman-blog', '~> 4.0', '>= 4.0.2'
 gem 'middleman-syntax'
-gem 'middleman-deploy'
-gem 'middleman-disqus'
-gem 'pygments.rb'
+gem 'middleman-deploy', '~> 2.0.0.pre.alpha'
+gem 'middleman-disqus', '~> 1.2'
+gem 'pygments.rb', '~> 1.2', '>= 1.2.1'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.1'
+gem 'middleman-sprockets', '~> 4.1', '>= 4.1.1'
 
 group :development do
   gem 'middleman-livereload'

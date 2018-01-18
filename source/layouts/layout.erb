@@ -17,11 +17,10 @@
   <body>
     <%= partial 'partials/nav' %>
 
-    <br>
     <div class='container' role="main">
       <%= yield %>
+      <%= partial 'partials/footer' %>
     </div>
 
-    <%= partial 'partials/footer' %>
   </body>
 </html>
