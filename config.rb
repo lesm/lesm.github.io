@@ -72,11 +72,11 @@ page "/feed.xml", layout: false
 # activate :livereload
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+  def post_image(article)
+    article.title.downcase.gsub(' ', '_') + '.jpg'
+  end
+end
 
 set :css_dir, 'stylesheets'
 
