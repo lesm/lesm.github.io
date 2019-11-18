@@ -9,7 +9,6 @@ gem 'pygments.rb', '~> 1.2', '>= 1.2.1'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.1'
 gem 'redcarpet'
 gem 'builder', '~> 3.0'
-gem 'jquery-middleman'
 
 group :development do
   gem 'middleman-livereload'
