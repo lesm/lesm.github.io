@@ -9,8 +9,8 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
-    <%= stylesheet_link_tag 'all' %>  
-    <%= stylesheet_link_tag 'syntax' %>  
+    <%= stylesheet_link_tag 'all' %>
+    <%= stylesheet_link_tag 'syntax' %>
     <%= javascript_include_tag "all" %>
     <%= favicon_tag 'images/favicon.png', :rel => 'shortcut icon'%>
   </head>

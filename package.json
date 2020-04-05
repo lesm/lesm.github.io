@@ -1,0 +1,20 @@
+{
+  "name": "lesm.github.io",
+  "version": "1.0.0",
+  "description": "personal blog",
+  "main": "index.js",
+  "repository": "git@github.com:lesm/lesm.github.io.git",
+  "author": "Luis Silva <silmar.dll@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "bootstrap": "^4.4.1",
+    "css-loader": "^3.4.2",
+    "jquery": "^3.4.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "popper.js": "^1.16.1",
+    "sass": "^1.26.3",
+    "sass-loader": "^8.0.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
