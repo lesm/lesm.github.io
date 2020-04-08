@@ -1,43 +1,21 @@
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">
-        <img class="img-circle" src="<%= data.authors.first.photo %>" id="user" alt="Luis Silva"/>
-        I'm a programmer \(¬_¬)/
-      </a>
+    <a class="navbar-brand align-self-center" href="/">
+      <img src="<%= data.authors.first.photo %>" width="45" height="45" class="d-inline-block rounded-circle" alt="Luis Silva">
+      &nbsp;<small>I'm a programmer <strong>\(¬_¬)/</strong></small>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="<%= data.authors.first.stackoverflow %>">
+          Stack Overflow
+        </a>
+        <a class="nav-item nav-link" href="<%= data.authors.first.github %>">
+          GitHub
+        </a>
+      </div>
     </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="<%=data.authors.first.twitter %>">
-            <img src="/images/author/twitter.png" class='social' alt=" " />
-            Sigueme ...
-          </a>
-        </li>
-        <li>
-          <a href="<%=data.authors.first.github %>">
-            <img src="/images/author/github.png" class='social' alt=" " />
-            Sigueme ...
-          </a>
-        </li>
-        <li>
-          <a href="<%=data.authors.first.facebook %>">
-            <img src="/images/author/facebook.png" class='social' alt=" " />
-            Sigueme ...
-          </a>
-        </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
   </div>
-  <!-- /.container -->
 </nav>

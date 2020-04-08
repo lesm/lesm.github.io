@@ -1,6 +1,5 @@
 - author:
   name: Luis Silva
-  photo: '/images/author/luis.png'
-  github: 'https://github.com/lesm'
-  twitter: 'https://twitter.com/sudo_silva'
-  facebook: 'https://www.facebook.com/lesm.luis'
+  photo: "/images/author/luis.png"
+  github: "https://github.com/lesm"
+  stackoverflow: "https://stackoverflow.com/users/7935188/luis-silva"

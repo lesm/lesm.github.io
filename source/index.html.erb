@@ -3,14 +3,8 @@ pageable: true
 per_page: 3
 ---
 
-<div class="row">
+<div class="row pt-4">
   <div class="col-md-8">
-    <% if paginate && num_pages > 1 %>
-      <p>Página <%= page_number %> de <%= num_pages %></p>
-    <% end %>
-  </div>
-
-  <div class="col-md-7">
     <% page_articles.each do |article| %>
       <h2>
         <%= link_to article.title, article %>
@@ -23,10 +17,10 @@ per_page: 3
         <time><%= article.date.strftime('%b %e %Y') %></time>
       </p>
       <hr>
-      <%= image_tag post_image(article), class: 'img-responsive' %>
+      <%= image_tag post_image(article), class: "img-fluid" %>
       <hr>
       <p> <%= article.summary(250) %> </p>
-      <% link_to article, class: 'btn btn-primary' do %>
+      <% link_to article, class: "btn btn-primary" do %>
         Leer más...
         <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
@@ -34,42 +28,47 @@ per_page: 3
     <% end %>
   </div>
 
-  <div class="col-md-1"></div>
-
   <div class="col-md-4">
-    <div class="well">
-      <h4>Articulos Recientes</h4>
-      <div class="row">
-        <div class="col-lg-12">
-          <ul class="list-unstyled">
-            <li>
-              <ol>
-                <% blog.articles.first(15).each do |article| %>
-                  <li>
-                    <%= link_to article.title, article %>
-                    <span><%= article.date.strftime('%b %e') %></span>
-                  </li>
-                <% end %>
-              </ol>
-            </li>
-          </ul>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h5 class="card-title">Articulos Recientes</h5>
+            <ul class="list-unstyled">
+              <li>
+                <ol class="list-unstyled">
+                  <% blog.articles.first(15).each do |article| %>
+                    <li class="list-inline-item">
+                      <%= link_to article.title, article %>
+                      <span><%= article.date.strftime("%b %e") %></span>
+                    </li>
+                  <% end %>
+                </ol>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="well">
-      <h4>Tags</h4>
-      <div class="row">
-        <div class="col-lg-12">
-          <ul class="list-unstyled">
-            <li>
-              <ul class="list-inline">
-                <% blog.tags.each do |tag, articles| %>
-                  <li><%= link_to "#{tag} (#{articles.size})", tag_path(tag) %></li>
-                <% end %>
-              </ul>
-            </li>
-          </ul>
+    <br>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h5 class="card-title">Tags</h5>
+            <ul class="list-unstyled">
+              <li>
+                <ul class="list-inline">
+                  <% blog.tags.each do |tag, articles| %>
+                    <li class="list-inline-item">
+                      <%= link_to "#{tag}", tag_path(tag) %>
+                      <span><%= "(#{articles.size})" %></span>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -81,21 +80,21 @@ per_page: 3
       <p>Página <%= page_number %> de <%= num_pages %></p>
     <% end %>
 
-    <ul class="pager">
-      <li class="previous">
+    <ul class="pagination justify-content-end">
+      <li class="page-item">
         <% if paginate && num_pages > 1 && prev_page %>
-          <% link_to prev_page, class: '' do%>
-            <span class="glyphicon glyphicon-chevron-left"></span>
+          <% link_to prev_page, class: "page-link bg-primary" do%>
+            <span aria-hidden="true">&laquo;</span>
             Anterior página
           <% end %>
         <% end %>
       </li>
-      <li class="next">
+      <li class="page-item">
         <% if paginate %>
           <% if next_page %>
-            <% link_to next_page, class: '' do %>
+            <% link_to next_page, class: "page-link bg-primary" do %>
               Siguiente página
-              <span class="glyphicon glyphicon-chevron-right"></span>
+              <span aria-hidden="true">&raquo;</span>
             <% end %>
           <% end %>
         <% end %>
