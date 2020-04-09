@@ -5,31 +5,38 @@ per_page: 3
 
 <div class="row pt-4">
   <div class="col-md-8">
-    <% page_articles.each do |article| %>
-      <h2>
-        <%= link_to article.title, article %>
-      </h2>
-      <p class="lead">
-        by <a href="<%=data.authors.first.github %>">Luis Silva</a>
-      </p>
-      <p>
-        <span class="glyphicon glyphicon-time"></span>
-        <time><%= article.date.strftime('%b %e %Y') %></time>
-      </p>
-      <hr>
-      <%= image_tag post_image(article), class: "img-fluid" %>
-      <hr>
-      <p> <%= article.summary(250) %> </p>
-      <% link_to article, class: "btn btn-primary" do %>
-        Leer más...
-        <span class="glyphicon glyphicon-chevron-right"></span>
+    <div class="row justify-content-center">
+      <% page_articles.each do |article| %>
+        <div class="col-md-10">
+          <div class="card mb-3">
+            <%= image_tag post_image(article), class: "card-img-top" %>
+            <div class="card-body">
+              <h3 class="card-title">
+                <%= link_to article.title, article %>
+              </h3>
+              <h6 class="card-subtitle mb-2">
+                by
+                <a href="<%=data.authors.first.github %>">
+                  <span class="badge badge-primary">Luis Silva</span>
+                </a>
+              </h6>
+              <p class="text-muted">
+                <time><%= article.date.strftime('%b %e %Y') %></time>
+              </p>
+              <p class="card-text"> <%= article.summary(250) %> </p>
+              <% link_to article, class: "card-link" do %>
+                Leer más...
+                <span aria-hidden="true">&raquo;</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
       <% end %>
-      <hr>
-    <% end %>
+    </div>
   </div>
 
   <div class="col-md-4">
-    <div class="row">
+    <div class="row mb-3">
       <div class="col-md-12">
         <div class="card text-white bg-primary">
           <div class="card-body">
@@ -50,12 +57,12 @@ per_page: 3
         </div>
       </div>
     </div>
-    <br>
-    <div class="row">
+
+    <div class="row mb-3">
       <div class="col-md-12">
         <div class="card text-white bg-primary">
           <div class="card-body">
-            <h5 class="card-title">Tags</h5>
+            <h5 class="card-title">Etiquetas</h5>
             <ul class="list-unstyled">
               <li>
                 <ul class="list-inline">
@@ -72,33 +79,38 @@ per_page: 3
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="col-md-8">
-    <% if paginate && num_pages > 1 %>
-      <p>Página <%= page_number %> de <%= num_pages %></p>
-    <% end %>
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex justify-content-between">
+          <% if paginate && num_pages > 1 %>
+            <p>Página <%= page_number %> de <%= num_pages %></p>
+          <% end %>
 
-    <ul class="pagination justify-content-end">
-      <li class="page-item">
-        <% if paginate && num_pages > 1 && prev_page %>
-          <% link_to prev_page, class: "page-link bg-primary" do%>
-            <span aria-hidden="true">&laquo;</span>
-            Anterior página
-          <% end %>
-        <% end %>
-      </li>
-      <li class="page-item">
-        <% if paginate %>
-          <% if next_page %>
-            <% link_to next_page, class: "page-link bg-primary" do %>
-              Siguiente página
-              <span aria-hidden="true">&raquo;</span>
-            <% end %>
-          <% end %>
-        <% end %>
+          <ul class="pagination justify-content-end">
+            <li class="page-item">
+              <% if paginate && num_pages > 1 && prev_page %>
+                <% link_to prev_page, class: "page-link bg-primary" do%>
+                  <span aria-hidden="true">&laquo;</span>
+                  Ant. Página
+                <% end %>
+              <% end %>
+            </li>
+            <li class="page-item">
+              <% if paginate %>
+                <% if next_page %>
+                  <% link_to next_page, class: "page-link bg-primary" do %>
+                    Sig. Página
+                    <span aria-hidden="true">&raquo;</span>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </li>
+          </ul>
+        </div>
       </div>
-      </li>
-    </ul>
+    </div>
+  </div>
 </div>
