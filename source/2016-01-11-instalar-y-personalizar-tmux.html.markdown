@@ -4,94 +4,84 @@ date: 2016-01-11 00:49 UTC
 tags: tmux, linux
 ---
 
-Tmux es una terminal multiplexora del sistema BSD. Permite tener diferentes sesiones donde se ejecuten aplicaciones en una terminal o en una shell. Permite dividir la consola de manera horizontal o vertical.
+Tmux es una terminal multiplexora del sistema BSD. Permite tener diferentes
+sesiones y cambiar fácilmente entre varios programas en una terminal.
 
-## Instalar Tmux
+#### Instalar Tmux
+Se usará el manejador de paquetes `pacman`, este va a depender del
+sistema que uses.
 
-```
+``` shell
 sudo pacman -S tmux
 ```
+Una vez terminada la instalación, se procede a iniciar `tmux`
 
-Sí ejecutamos tmux:
-
-
-```
-tmux
-```
-
-O iniciar **tmux** con nombre de la sesión:
-
-```
+``` shell
 tmux new -s prueba
 ```
 
-Se vera algo así:
+La opción `-s` es para asignarle un nombre a la sesión. Se vera algo así:
 
-[![tmux-normal](./images/tmux/tmux-normal.png)](./images/tmux/tmux-normal.png)
-
-
-## Personalizar Tmux
+[![tmux-normal-horizontal-img](./images/tmux/tmux-normal.png)](./images/tmux/tmux-normal.png)
 
 
-### Instalar tmux-powerline
+#### Personalizar Tmux
 
+Para ello se hace uso de **tmux-powerline**, se crea el directorio donde se
+clonará el proyecto.
 
-```
+``` shell
 mkdir ~/.tmux-powerline && cd ~/.tmux-powerline
 git clone https://github.com/erikw/tmux-powerline.git
 ```
 
-### Instalar fonts para powerline
+También se necesita instalar las **fuentes** que requiere **tmux-powerline**, se
+debe clonar el proyecto y ejecutar el archivo `install.sh` para su instalación
+se usará el directorio `/opt/fonst` se puede usar otro directorio.
 
-
-```
-cd /tmp
-git clone git@github.com:powerline/fonts.git
+``` shell
+cd /opt/fonts
+git clone https://github.com/powerline/fonts.git
 cd fonts && ./install.sh
 ```
 
-### Crear tema "lesm" para powerline
+**tmux-powerline** viene con varios temas los cuales están bajo el directorio
+`~/.tmux-powerline/tmux-powerline/themes/`
 
-Agregar el contenido de esté archivo
+Si también quieres crear tu propio tema, solo tienes que agregarlo
+bajo ese directorio, por ejemplo yo creé el tema [lesm.sh](https://gist.github.com/lesm/c12159b878c119ec7c84)
 
-[Tema para powerline](https://gist.github.com/lesm/c12159b878c119ec7c84)
+Ahora solo toca decirle a **tmux-powerline** que use el tema correcto, eso se hace
+editando el archivo `~/.tmux-powerline/tmux-powerline/config/defaults.sh`
 
-```
-cd ~/.tmux-powerline/tmux-powerline/themes/
-vim lesm.sh
-```
+Se edita la línea:
 
-
-### Cambiar el tema asignado por "default" por "lesm"
-
-
-Editar el archivo:
-
-```
-vim ~/.tmux-powerline/tmux-powerline/config/defaults.sh
+``` shell
+export TMUX_POWERLINE_THEME_DEFAULT="default"
 ```
 
+El tema por defecto se llama `default` hay que cambiarlo por el nuevo tema en
+este caso `lesm`.
 
-Antes:
-
-[![default-antes](./images/tmux/default-antes.png)](./images/tmux/default-antes.png)
-
-Después:
-
-[![default-despues](./images/tmux/default-despues.png)](./images/tmux/default-despues.png)
-
-
-## Archivo de configuración de tmux
-
-Ahora toca crear el siguiente archivo **~/.tmux.conf**  y agregar las siguientes líneas:
-
+``` shell
+export TMUX_POWERLINE_THEME_DEFAULT="lesm"
 ```
-#### Barra inferior Powerline
+
+El último paso es crear el archivo de configuración para `tmux`
+
+``` shell
+vim ~/.tmux.conf
+```
+
+Agregar las siguientes líneas:
+
+``` vim
+# Barra inferior Powerline
 set-option -g status on
 set-option -g status-interval 2
 set-option -g status-utf8 on
 set-option -g status-justify 'left'
-#set-option -g status-fg colour231
+# set-option -g status-fg colour231
 set-option -g status-bg colour31
 set-option -g status-right-length 75
 set-option -g status-right "#(~/.tmux-powerline/tmux-powerline/powerline.sh right)"
@@ -103,27 +93,15 @@ set -g window-status-current-format '#[fg=colour234,bg=colour31] #[fg=colour1
 hrs#[fg=colour57,bold] «\(¬_¬)/»'
 ```
 
-## Mi configuración de tmux,
-
-[Mi archivo ~/.tmux.conf](https://gist.github.com/lesm/55eff8569a58f7623cf2)
+Mi archivo de configuración para [tmux](https://gist.github.com/lesm/55eff8569a58f7623cf2)
 
 
-### Iniciar tmux
+#### Iniciar tmux
 
-```
+``` shell
 tmux new -s version-personalizada
 ```
 
-Ahora tmux se vera de está manera:
+Ahora tmux se mostrará de la siguiente manera:
 
-[![tmux-personalizado](./images/tmux/tmux-personalizado.png)](./images/tmux/tmux-personalizado.png)
-
-## Iniciar tmux automáticamente
-
-
-Agregar la siguiente línea, al final de **~/.zshrc** o **~/.bashrc** dependiendo de que uses
-
-```
-[[ $- != *i*  ]] && return [[ $TERM != screen*  ]] && exec tmux -2
-```
-
+[![tmux-personalizado-horizontal-img](./images/tmux/tmux-personalizado.png)](./images/tmux/tmux-personalizado.png)

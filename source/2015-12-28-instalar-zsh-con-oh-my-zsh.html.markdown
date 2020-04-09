@@ -4,58 +4,69 @@ date: 2015-12-28 07:05 UTC
 tags: zsh,chakra
 ---
 
-Esta semana actualice mi sistema a **Chakra "Fermi"**, con muchas ganas de probar lo nuevo de KDE con plasma 5. Y aunque cada fin de semestre realizo una instalación limpia, no me había decidido por crear unos post para tener a donde recurrir la próxima vez, ya que siempre tengo que estar configurando e instalando todo de nuevo. Y también con la ídea de que estos post puedan ser de ayuda para alguien más.
+Esta semana actualice mi sistema a **Chakra Fermi**, con muchas ganas de
+probar lo nuevo de **KDE con plasma 5**.
+
+Cada fin de semestre realizo una instalación limpia, y no me había decidido
+a crear unos posts para tener a donde recurrir la próxima vez.
+
+También con la idea, que estos posts puedan ser de ayuda para alguien más.
 
 ## Instalar zsh
 
-```
+En **Chakra** el manejador de paquetes es `pacman` el cual se usará para instalar
+`zsh`
+
+``` shell
 sudo pacman -S zsh
 ```
 
-Podemos ejecutar **zsh** para utilizarlo:
+Para usar la `shell` `zsh` ejecutamos:
 
-```
+``` shell
 zsh
 ```
-Al ser la primera vez que utilizamos **zsh**, mostrara un mensaje por el momento solo tecleamos la letra **q** (para que no creé ningún archivo)
+Al ser la primera vez que se utiliza `zsh`, mostrará un mensaje por el momento
+hay que ignorar el mensaje tecleando la letra **q** (para que no creé ningún archivo)
 
-También al cerrar la consola, y volver abrirla notaremos que no inicia con **zsh** sino con **bash**.
+También al cerrar la consola, y abrir una nueva notaras que no inicia con
+`zsh` sino con `bash`.
 
+Lo que se tiene que hacer es cambiar la configuración y poner a `zsh`
+por defecto.
 
-Lo que tenemos que hacer es cambiar la configuración y poner a **zsh** por default, para eso haremos uso del comando **chsh** con el tag **-l** lo cual nos devolverá los diferentes intérpretes que tiene nuestro sistema, incluyendo **zsh**. Lo que necesitamos de esto es la ubicación de zsh, para así asignar a zsh como intérprete por default.
+Primero se necesita saber en donde se encuentra el ejecutable de `zsh`
+para eso se usa el comando `chsh` con la opción `-l`
 
-
-
-```
+``` shell
 chsh -l
 ```
-Veremos algo así:
+Se vera algo así:
 
-```
+``` shell
 /bin/bash
 /bin/zsh
 ```
-Ahora ejecutamos la línea de abajo, para asignar a **zsh** como nuestro interprete por default.
 
-```
+Una vez conocida la ruta de `zsh`, se puede asignar como intérprete por defecto.
+
+``` shell
 chsh -s /bin/zsh
 ```
 
-Para que esto tenga efecto, necesitamos reiniciar nuestro sistema.
+Para que tenga efecto se necesita reiniciar el sistema.
+
+#### Instalar oh-my-zsh
+
+Después de haber reiniciado el sistema, solo falta instalar **oh-my-zsh**
 
 
-## Instalar oh-my-zsh
-
-Después de haber reiniciado nuestro sistema, procedemos a instalar **oh-my-zsh**.
-
-Ejecutamos:
-
-
-```
+``` shell
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-Cerramos la terminal y volvemos abrirla para ver los cambios. Y con esto ya tendremos instalado **zsh con oh-my-zsh en chakra**.
+Cerrar la terminal y abrir una nueva para ver los cambios.
+Con esto se tiene instalado `zsh` con **oh-my-zsh**.
 
-[![Alt text](./images/zsh/zsh.png)](./images/zsh/zsh.png)
+[![zsh-horizontal-img](./images/zsh/zsh.png)](./images/zsh/zsh.png)
 

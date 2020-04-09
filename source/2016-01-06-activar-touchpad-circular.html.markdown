@@ -4,50 +4,45 @@ date: 2016-01-06 21:52 UTC
 tags: touchpad, chakra
 ---
 
-Desde hace ya un tiempo vengo utilizando el touchpad de mi lap, con la opción **CircularScrolling**, la cual ofrece la funcionalidad de usar el scroll de manera circular.
-Está opción me gusta mucho porque facilita el desplazamiento sobre páginas de bastante contenido, o al estar leyendo uno que otro libro (pdf) o documentos de texto.
+Desde hace un tiempo vengo utilizando la opción **CircularScrolling** del
+touchpad de la lap.
 
-## ¿Cómo funciona?
+Está opción facilita el desplazamiento sobre páginas de bastante contenido o
+al estar leyendo un pdf o documentos.
 
-```
+#### ¿Cómo funciona?
+
+``` shell
 Option "CircularScrolling"     "on"
 ```
-Funciona solo con un dedo, sobre todo el contorno del touchpad
+Funciona presionando el touchpad con un dedo, sobre todo el contorno del mismo.
 
-## Para activar está funcionalidad
+#### Para activar está funcionalidad
 
-Como estoy trabajando en **Chakra** el archivo a modificar **"50-synaptics.conf"** se encuentra dentro del directorio:
+Como se esta usando la distro **Chakra** el archivo a modificar es **50-synaptics.conf**
 
-```
+Se encuentra dentro del directorio:
+
+``` shell
 /usr/share/X11/xorg.conf.d
 ```
 
 En otras distribuciones se puede encontrar dentro del directorio:
 
-```
+``` shell
 /etc/X11/xorg.conf.d
 ```
-Entramos al directorio
 
+Editar el archivo `50-synaptics.conf`
+
+``` shell
+vim /usr/share/X11/xorg.conf.d/50-synaptics.conf
 ```
-cd /usr/share/X11/xorg.conf.d
-```
+En la imagen se puede ver que la opción se ha agregado en la línea 17.
 
-Abrimos el archivo 50-synaptics.conf
+[![synaptics-horizontal-img](./images/touchpad/scroll.png)](./images/touchpad/scroll.png)
 
-```
-sudo vim 50-synaptics.conf
-```
-
-Agregamos
-
-```
-Option "CircularScrolling"     "on"
-```
-
-En esta imagen se puede ver que la opción se ha agregado en la línea 17
-
-[![Alt text](./images/touchpad/scroll.png)](./images/touchpad/scroll.png)
-
-Solo queda guardar los cambios y reiniciar nuestro sistema.  Reiniciar el sistema porque no sé si exista algún servicio para reiniciar el touchpad, de lo contrario solo se podría reiniciar el servicio (^-^).
+Solo queda guardar los cambios y reiniciar el sistema. Reiniciar el sistema
+porque no sé si exista algún servicio para reiniciar el touchpad. De lo
+contrario solo se podría reiniciar el servicio (^-^).
 

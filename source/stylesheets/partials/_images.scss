@@ -1,17 +1,11 @@
-img[alt=default-antes],
-img[alt=default-despues],
-img[alt=conky_n],
-img[alt=conky_p] {
+img[alt$=vertical-img] {
   width: 40%;
   display: block;
   margin: 0 auto;
 }
 
-img[alt=tmux-personalizado],
-img[alt=default-despues],
-img[alt=default-antes],
-img[alt=tmux-normal] {
-  width: 80%;
+img[alt$=horizontal-img] {
+  width: 100%;
   display: block;
   margin: 0 auto;
 }

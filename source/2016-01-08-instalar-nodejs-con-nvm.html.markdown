@@ -4,67 +4,66 @@ date: 2016-01-08 16:46 UTC
 tags: nodejs, nvm
 ---
 
-**Node Version Manager** (nvm), Es una herramienta que nos ayuda a tener instaladas diferentes versiones de **nodejs**
+**Node Version Manager** (nvm), permite instalar diferentes versiones de `nodejs`
+sin tener conflicto entre ellas.
 
-## Instalación de nvm
+#### Instalación de nvm
 
-Para instalar nvm en nuestro sistema se siguen los siguientes pasos:
+Con `curl` se descarga el archivo de instalación y se ejecuta.
 
-Con curl:
-
-```
+``` shell
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
 ```
 
-O con wget:
+O con `wget`
 
-```
+``` shell
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
 ```
 
+Para que la consola actual reconozca el comando `nvm`, hay que ejecutar la
+siguiente línea o cerrar la consola y abrir una nueva.
 
-Ejecutamos la siguiente orden, para hacer que la consola reconozca el comando nvm. O cerrarmos la consola y la volvemos abrir para que reconozca los cambios y detecte a **nvm**
-
-```
+``` shell
 source ~/.profile
 ```
 
-Verificamos que tenemos instalada la herramienta **nvm**, obteniendo su versión.
+Con esto ya esta instalado `nvm`, se puede verificar ejecutando el comando:
 
-```
+``` shell
 nvm --version
 ```
 
-## Instalación de nodejs
+#### Instalación de nodejs
 
-Ahora instalamos la versión que necesitamos de nodejs, y sí solo queremos la versión estable de nodejs podemos hacer lo siguiente:
+Para instalar la versión estable de `nodejs`.
 
-```
+``` shell
 nvm install stable
 ```
 
-Si ejecutamos:
+Para instalar una versión en específica de `nodejs`.
 
+``` shell
+nvm install 5.5
 ```
-nvm list
-```
 
-[![nvm-list](./images/nvm/nvm-list.png)](./images/nvm/nvm-list.png)
+El comando `nvm list`, muesta las versiones de `nodejs` que están instaladas.
 
-Muestra las diferentes versiones de nodejs que tenemos instaladas.
+[![nvm-list-horizontal-img](./images/nvm/nvm-list.png)](./images/nvm/nvm-list.png)
 
-Para poder usar una versión de nodejs se necesita hacer lo siguiente:
+Para cambiar de versión de `nodejs`.
 
-```
+``` shell
 nvm use 5.3.0
 ```
 
-Donde **5.3.0** es el número de versión que necesitamos usar. Teniendo en cuenta que está versión de **nodejs** solo será reconocida en la consola donde se ejecutó la instrucción, y al momento de cerrar la consola, dejara de ser accesible la versión de nodejs.
+El cambio solo tendrá efecto en la consola activa, para hacerlo permanente se
+tiene que asignar como la versión por defecto, para ellos se usa la opción
+`default` seguido de la versión.
 
-## Asignar una versión de nodejs por default
+Asignar una versión de `nodejs` por defecto.
 
-Al asignar una versión de **nodejs** por default está se pueda ejecutar desde cualquier shell, y en cualquier momento hacer uso de esta versión de nodejs.
-
-```
+``` shell
 nvm alias default 5.3.0
 ```

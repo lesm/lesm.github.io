@@ -1,12 +1,13 @@
 ---
-title: Creando Alias en Git
+title: Creando alias en git
 date: 2015-10-25
 tags: git
 ---
 
-Ultimamente eh estado trabajando más con git. Y se me hacia algo tedioso estar escribiendo continuamente los comando:
+Últimamente he trabajando más con `git`. Y se me hacia algo tedioso estar
+escribiendo continuamente los comando:
 
-```
+``` shell
 git add .
 git commit -a -m 'algún mensage'
 git commit -m 'algún mensage'
@@ -15,22 +16,22 @@ git log
 git diff
 ```
 
-Así que decidí crear unos alias. Git trae la opción de crear alias para sus comandos.
+Así que decidí crear unos alias, `git` trae la opción de crear alias.
 
-## Como hacerlo
+#### ¿Cómo hacerlo?
 
-En el fichero **~/.gitconfig** el cual, es el archivo de configuración de Git. Ya debe de tener, un nombre y un correo, esto si es que ya trabajas con Git.
+Solo hay que crear los alias en el archivo de configuración de git **~/.gitconfig**
 
-```
+``` shell
 [user]
   name: 'Luis Silva'
   email: 'correo@gmail.com'
   ...
 ```
 
-Al final de archivo agrega
+Los alias se agregan de la siguiente forma:
 
-```
+``` shell
 [alias]
   cam = commit -a -m
   cm = commit -m
@@ -40,11 +41,11 @@ Al final de archivo agrega
   d = diff
 ```
 
-Ahora puedes hacer uso de los alias
+Ahora se puede hacer uso de los alias.
 
-## Con alias
+#### Con alias
 
-```
+``` shell
 git cam 'mensage del commit'
 git cm 'mensage del commit'
 git l
@@ -53,9 +54,9 @@ git a .
 git d
 ```
 
-## Sin alias
+#### Sin alias
 
-```
+``` shell
 git commit -a -m 'mensage del commit'
 git commit -m 'mensage del commit'
 git log
@@ -64,4 +65,4 @@ git add .
 git diff
 ```
 
-Puedes personalizar los alias a tu manera
+Puedes personalizar los alias a tu manera.
