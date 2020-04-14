@@ -1,20 +1,66 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-xl navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand align-self-center" href="/">
+    <a class="navbar-brand" href="/">
       <img src="<%= data.authors.first.photo %>" width="45" height="45" class="d-inline-block rounded-circle" alt="Luis Silva">
       &nbsp;<small>I'm a programmer </small><span class="font-weight-bold text-success">\(¬_¬)/</span>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-md-end" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="<%= data.authors.first.stackoverflow %>">
+        <a class="nav-item nav-link text-success" href="<%= data.authors.first.stackoverflow %>">
           Stack Overflow
         </a>
-        <a class="nav-item nav-link" href="<%= data.authors.first.github %>">
+        <a class="nav-item nav-link text-success pb-3" href="<%= data.authors.first.github %>">
           GitHub
         </a>
+        <div class="text-white">
+          <div class="d-flex justify-content-between pb-2">
+            <h5 class="">Artículos Recientes</h5>
+            <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target="#navbarNav2" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <i class="fas fa-caret-down"></i>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarNav2">
+            <div class="navbar-nav">
+                <ul class="list-unstyled">
+                  <li>
+                    <ol class="list-unstyled">
+                      <% blog.articles.first(15).each do |article| %>
+                        <li class="list-inline-item m-1">
+                          <%= link_to article.title, article, class: "nav-item" %>
+                          <span><%= article.date.strftime("%b %e") %></span>
+                        </li>
+                      <% end %>
+                    </ol>
+                  </li>
+                </ul>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <h5 class="">Etiquetas</h5>
+            <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target="#navbarNav3" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <i class="fas fa-caret-down"></i>
+            </button>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarNav3">
+            <div class="navbar-nav">
+                <ul class="list-unstyled">
+                  <li>
+                    <ol class="list-unstyled">
+                      <% blog.tags.each do |tag, articles| %>
+                        <li class="list-inline-item m-1">
+                          <%= link_to "#{tag}", tag_path(tag) %>
+                          <span><%= "(#{articles.size})" %></span>
+                        </li>
+                      <% end %>
+                    </ol>
+                  </li>
+                </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

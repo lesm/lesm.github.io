@@ -1,3 +1,20 @@
+@include media-breakpoint-up(xs) {
+  aside.container {
+    display: none;
+  }
+  nav.container {
+    display: block;
+  }
+}
+@include media-breakpoint-up(xl) {
+  aside.container {
+    display: block;
+  }
+  nav.navbar {
+    display: none;
+  }
+}
+
 pre.highlight {
   padding: 5px;
 }

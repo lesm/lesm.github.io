@@ -3,8 +3,8 @@ pageable: true
 per_page: 4
 ---
 
-<div class="row pt-4">
-  <div class="col-lg-9">
+<div class="row justify-content-center">
+  <div class="col-lg-10 pt-4">
     <div class="row">
       <% page_articles.each do |article| %>
         <div class="col-md-6">
@@ -20,6 +20,7 @@ per_page: 4
                 </a>
               </h6>
               <p class="text-muted">
+                <i class="far fa-clock"></i>
                 <time><%= article.date.strftime('%b %e %Y') %></time>
               </p>
               <p class="card-text"> <%= article.summary(250) %> </p>
@@ -34,40 +35,7 @@ per_page: 4
     </div>
   </div>
 
-  <div class="col-lg-3">
-    <div class="card text-white bg-primary shadow-lg mb-3 rounded">
-      <div class="card-body">
-        <h5 class="card-title">Artículos Recientes</h5>
-        <ul class="list-unstyled">
-          <li>
-            <ol class="list-unstyled">
-              <% blog.articles.first(15).each do |article| %>
-                <li class="list-inline-item">
-                  <%= link_to article.title, article %>
-                  <span><%= article.date.strftime("%b %e") %></span>
-                </li>
-              <% end %>
-            </ol>
-          </li>
-        </ul>
-        <h5 class="card-title">Etiquetas</h5>
-        <ul class="list-unstyled">
-          <li>
-            <ul class="list-inline">
-              <% blog.tags.each do |tag, articles| %>
-                <li class="list-inline-item">
-                  <%= link_to "#{tag}", tag_path(tag) %>
-                  <span><%= "(#{articles.size})" %></span>
-                </li>
-              <% end %>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12 mb-3 pb-5">
+  <div class="col-lg-10 mb-3 pb-5">
     <div class="d-flex justify-content-between">
       <% if paginate && num_pages > 1 %>
         <p>Página <%= page_number %> de <%= num_pages %></p>

@@ -16,11 +16,19 @@
   </head>
   <body>
     <%= partial "partials/nav" %>
-
-    <div class="container">
-      <%= yield %>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-3 bg-primary">
+          <%= partial "partials/sidebar" %>
+        </div>
+        <div class="col-xl-9 bg-light">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <%= partial "partials/footer" %>
+      </div>
     </div>
-
-    <%= partial "partials/footer" %>
   </body>
 </html>
