@@ -23,4 +23,4 @@ COPY . .
 
 EXPOSE 4567
 
-CMD ["middleman", "s", "--bind-address", "0.0.0.0"]
+CMD ["bundle", "exec", "middleman", "s", "--bind-address", "0.0.0.0"]
