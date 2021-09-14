@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blog Name</title>
+  <subtitle>Blog subtitle</subtitle>
+  <id>http://blog.url.com/</id>
+  <link href="http://blog.url.com/"/>
+  <link href="http://blog.url.com/feed.xml" rel="self"/>
+  <updated>2021-08-19T04:17:00+00:00</updated>
+  <author>
+    <name>Blog Author</name>
+  </author>
+  <entry>
+    <title>Middleman deploy via Git from Docker</title>
+    <link rel="alternate" href="http://blog.url.com/2021/08/19/middleman-deploy-via-git-from-docker.html"/>
+    <id>http://blog.url.com/2021/08/19/middleman-deploy-via-git-from-docker.html</id>
+    <published>2021-08-19T04:17:00+00:00</published>
+    <updated>2021-09-14T03:37:52+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;This blog was built with &lt;a href="https://middlemanapp.com/"&gt;Middleman&lt;/a&gt; and deploy to &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m using the &lt;a href="https://github.com/karlfreeman/middleman-deploy"&gt;middleman-deploy&lt;/a&gt; gem to deploy via Git.&lt;/p&gt;
+
+&lt;p&gt;Last year I decided to use docker to develop and running this blog and one of the problems I had at that moment it was to make 
+the deploy works from the docker container.&lt;/p&gt;
+
+&lt;p&gt;And that&amp;rsquo;s what this post is about.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m using &lt;code&gt;ruby:2.7.1-alpine3.12&lt;/code&gt; as docker base image.&lt;/p&gt;
+
+&lt;p&gt;Before I added docker to this project the dependencies were installed locally and since I have Git already setup it was enough to run the &lt;code&gt;middleman deploy&lt;/code&gt; command from the root of the project to deploy to GitHub Pages.&lt;/p&gt;
+
+&lt;p&gt;It worked because the &lt;code&gt;middleman-deploy&lt;/code&gt; gem had access to these two files:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;  ~/.gitconfig
+  ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;But now all the dependencies live inside of the docker container so we need to setup Git inside of the container.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;middleman-deploy&lt;/code&gt; gem makes automatics commits in the deploy process and the commits are make with the user that is in the &lt;code&gt;~/.gitconfig&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;To deploy, the &lt;code&gt;middleman-deploy&lt;/code&gt; gem pushes the files generates in the build process to GitHub and it uses the &lt;code&gt;~/.ssh/id_rsa&lt;/code&gt; file to authenticate over SSH.&lt;/p&gt;
+
+&lt;p&gt;We need to ensure that the Docker container has access to the two files mentioned above.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll use &lt;a href="https://docs.docker.com/compose/"&gt;docker-compose&lt;/a&gt; to make easier our setup.&lt;/p&gt;
+
+&lt;p&gt;Docker implements secrets to manage sensitive data like our ssh key.
+&lt;em&gt;Docker can read secrets either from its own database (e.g. secrets made with &lt;code&gt;docker secret create&lt;/code&gt;) or from a file&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;For the &lt;code&gt;~/.gitconfig&lt;/code&gt; file we&amp;rsquo;re going to stored it as a volume and for the &lt;code&gt;~/.ssh/id_rsa&lt;/code&gt; file we&amp;rsquo;ll use secrets.&lt;/p&gt;
+
+&lt;p&gt;docker-compose.yml&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;version: &lt;span class="s2"&gt;"3.7"&lt;/span&gt;
+
+services:
+  web:
+    build: &lt;span class="nb"&gt;.&lt;/span&gt;
+    volumes:
+      - .:/usr/src/app
+      - ~/.gitconfig:/root/.gitconfig &lt;span class="c"&gt;# Include our .gitconfig file into the container&lt;/span&gt;
+
+secrets:
+  host_ssh_key: &lt;span class="c"&gt;# The name to identify the secret&lt;/span&gt;
+    file: ~/.ssh/id_rsa &lt;span class="c"&gt;# The file to create as secret&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The location of the mount point within the container is &lt;code&gt;/run/secrets/&amp;lt;secret_name&amp;gt;&lt;/code&gt; 
+but we know that the &lt;code&gt;id_rsa&lt;/code&gt; file must be inside of the &lt;code&gt;~/.ssh&lt;/code&gt; directory.&lt;/p&gt;
+
+&lt;p&gt;So the last step is update the Dockerfile to create the &lt;code&gt;~/.ssh&lt;/code&gt; directory and make a symbolic link for the &lt;code&gt;id_rsa&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;Docker&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;RUN &lt;span class="nb"&gt;mkdir&lt;/span&gt; ~/.ssh &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;ln&lt;/span&gt; &lt;span class="nt"&gt;-s&lt;/span&gt; /run/secrets/host_ssh_key ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;With everything setup we can now deploy to GitHub Pages from a Docker container.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;  &lt;span class="c"&gt;# Generate the docker image&lt;/span&gt;
+  docker-compose build
+
+  &lt;span class="c"&gt;# Start the web service&lt;/span&gt;
+  docker-compose up &lt;span class="nt"&gt;-d&lt;/span&gt;
+
+  &lt;span class="c"&gt;# Deploy from Docker container&lt;/span&gt;
+  docker-compose &lt;span class="nb"&gt;exec &lt;/span&gt;web middleman deploy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Dockerfile:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;FROM ruby:2.7.1-alpine3.12
+
+RUN apk add &lt;span class="nt"&gt;--update&lt;/span&gt; &lt;span class="nt"&gt;--no-cache&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+  build-base &lt;span class="se"&gt;\&lt;/span&gt;
+  tzdata &lt;span class="se"&gt;\&lt;/span&gt;
+  git &lt;span class="se"&gt;\&lt;/span&gt;
+  openssh &lt;span class="se"&gt;\&lt;/span&gt;
+  yarn
+
+RUN &lt;span class="nb"&gt;mkdir&lt;/span&gt; ~/.ssh &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;ln&lt;/span&gt; &lt;span class="nt"&gt;-s&lt;/span&gt; /run/secrets/host_ssh_key ~/.ssh/id_rsa
+
+WORKDIR ./usr/src/app
+
+COPY Gemfile&lt;span class="k"&gt;*&lt;/span&gt; ./
+
+RUN bundle &lt;span class="nb"&gt;install
+
+&lt;/span&gt;COPY yarn&lt;span class="k"&gt;*&lt;/span&gt; ./
+
+RUN yarn &lt;span class="nb"&gt;install
+
+&lt;/span&gt;COPY &lt;span class="nb"&gt;.&lt;/span&gt; &lt;span class="nb"&gt;.&lt;/span&gt;
+
+EXPOSE 4567
+
+CMD &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"bundle"&lt;/span&gt;, &lt;span class="s2"&gt;"exec"&lt;/span&gt;, &lt;span class="s2"&gt;"middleman"&lt;/span&gt;, &lt;span class="s2"&gt;"s"&lt;/span&gt;, &lt;span class="s2"&gt;"--bind-address"&lt;/span&gt;, &lt;span class="s2"&gt;"0.0.0.0"&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;docker-compose.yml:&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;version: &lt;span class="s2"&gt;"3.7"&lt;/span&gt;
+
+services:
+  web:
+    build: &lt;span class="nb"&gt;.&lt;/span&gt;
+    volumes:
+      - .:/usr/src/app
+      - ~/.gitconfig:/root/.gitconfig
+    ports:
+      - 4567:4567
+    secrets:
+      - host_ssh_key
+
+secrets:
+  host_ssh_key:
+    file: ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
+  <entry>
+    <title>Instalar y personalizar tmux</title>
+    <link rel="alternate" href="http://blog.url.com/2016/01/11/instalar-y-personalizar-tmux.html"/>
+    <id>http://blog.url.com/2016/01/11/instalar-y-personalizar-tmux.html</id>
+    <published>2016-01-11T00:49:00+00:00</published>
+    <updated>2021-08-19T01:31:22+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Tmux es una terminal multiplexora del sistema BSD. Permite tener diferentes
+sesiones y cambiar fácilmente entre varios programas en una terminal.&lt;/p&gt;
+
+&lt;h4&gt;Instalar Tmux&lt;/h4&gt;
+
+&lt;p&gt;Se usará el manejador de paquetes &lt;code&gt;pacman&lt;/code&gt;, este va a depender del
+sistema que uses.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;pacman &lt;span class="nt"&gt;-S&lt;/span&gt; tmux
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Una vez terminada la instalación, se procede a iniciar &lt;code&gt;tmux&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;tmux new &lt;span class="nt"&gt;-s&lt;/span&gt; prueba
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;La opción &lt;code&gt;-s&lt;/code&gt; es para asignarle un nombre a la sesión. Se vera algo así:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/tmux/tmux-normal.png"&gt;&lt;img src="/images/tmux/tmux-normal.png" alt="tmux-normal-horizontal-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4&gt;Personalizar Tmux&lt;/h4&gt;
+
+&lt;p&gt;Para ello se hace uso de &lt;strong&gt;tmux-powerline&lt;/strong&gt;, se crea el directorio donde se
+clonará el proyecto.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;mkdir&lt;/span&gt; ~/.tmux-powerline &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; ~/.tmux-powerline
+git clone https://github.com/erikw/tmux-powerline.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;También se necesita instalar las &lt;strong&gt;fuentes&lt;/strong&gt; que requiere &lt;strong&gt;tmux-powerline&lt;/strong&gt;, se
+debe clonar el proyecto y ejecutar el archivo &lt;code&gt;install.sh&lt;/code&gt; para su instalación
+se usará el directorio &lt;code&gt;/opt/fonst&lt;/code&gt; se puede usar otro directorio.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /opt/fonts
+git clone https://github.com/powerline/fonts.git
+&lt;span class="nb"&gt;cd &lt;/span&gt;fonts &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; ./install.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;tmux-powerline&lt;/strong&gt; viene con varios temas los cuales están bajo el directorio
+&lt;code&gt;~/.tmux-powerline/tmux-powerline/themes/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Si también quieres crear tu propio tema, solo tienes que agregarlo
+bajo ese directorio, por ejemplo yo creé el tema &lt;a href="https://gist.github.com/lesm/c12159b878c119ec7c84"&gt;lesm.sh&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ahora solo toca decirle a &lt;strong&gt;tmux-powerline&lt;/strong&gt; que use el tema correcto, eso se hace
+editando el archivo &lt;code&gt;~/.tmux-powerline/tmux-powerline/config/defaults.sh&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Se edita la línea:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TMUX_POWERLINE_THEME_DEFAULT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"default"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El tema por defecto se llama &lt;code&gt;default&lt;/code&gt; hay que cambiarlo por el nuevo tema en
+este caso &lt;code&gt;lesm&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;TMUX_POWERLINE_THEME_DEFAULT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"lesm"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El último paso es crear el archivo de configuración para &lt;code&gt;tmux&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;vim ~/.tmux.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Agregar las siguientes líneas:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight viml"&gt;&lt;code&gt;# Barra inferior Powerline
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;interval &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;utf8 &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;justify &lt;span class="s1"&gt;'left'&lt;/span&gt;
+# &lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;fg colour231
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt; colour31
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;right&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;length &lt;span class="m"&gt;75&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;right&lt;/span&gt; &lt;span class="s2"&gt;"#(~/.tmux-powerline/tmux-powerline/powerline.sh right)"&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;option &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;left&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;length &lt;span class="m"&gt;30&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; status&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;left&lt;/span&gt; '#&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour234&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;colour31&lt;span class="p"&gt;]&lt;/span&gt; #&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour16&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;colour254&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+Sesió&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  Luis&lt;span class="p"&gt;-&lt;/span&gt;Silva  #&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour254&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;colour234&lt;span class="p"&gt;,&lt;/span&gt;nobold&lt;span class="p"&gt;]&lt;/span&gt; '
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;g&lt;/span&gt; &lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;-&lt;/span&gt;status&lt;span class="p"&gt;-&lt;/span&gt;current&lt;span class="p"&gt;-&lt;/span&gt;format '#&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour234&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;colour31&lt;span class="p"&gt;]&lt;/span&gt; #&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour117&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bg&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;colour31&lt;span class="p"&gt;]&lt;/span&gt; #I
+#&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour231&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; #W#&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour231&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; #&lt;span class="p"&gt;(&lt;/span&gt;uptime &lt;span class="p"&gt;|&lt;/span&gt; cut &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="m"&gt;4-5&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;d&lt;/span&gt; &lt;span class="s2"&gt;" "&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; cut &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;d&lt;/span&gt; &lt;span class="s2"&gt;","&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+hrs#&lt;span class="p"&gt;[&lt;/span&gt;fg&lt;span class="p"&gt;=&lt;/span&gt;colour57&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;bold&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; «\&lt;span class="p"&gt;(&lt;/span&gt;¬_¬&lt;span class="p"&gt;)&lt;/span&gt;/»'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Mi archivo de configuración para &lt;a href="https://gist.github.com/lesm/55eff8569a58f7623cf2"&gt;tmux&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4&gt;Iniciar tmux&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;tmux new &lt;span class="nt"&gt;-s&lt;/span&gt; version-personalizada
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ahora tmux se mostrará de la siguiente manera:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/tmux/tmux-personalizado.png"&gt;&lt;img src="/images/tmux/tmux-personalizado.png" alt="tmux-personalizado-horizontal-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Instalar ruby con rvm</title>
+    <link rel="alternate" href="http://blog.url.com/2016/01/08/instalar-ruby-con-rvm.html"/>
+    <id>http://blog.url.com/2016/01/08/instalar-ruby-con-rvm.html</id>
+    <published>2016-01-08T19:12:00+00:00</published>
+    <updated>2021-08-19T01:31:22+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Ruby Version Manager&lt;/strong&gt; (RVM) es una herramienta de línea de comandos que
+permite instalar diferentes versiones de &lt;code&gt;ruby&lt;/code&gt; fácilmente.&lt;/p&gt;
+
+&lt;p&gt;Antes de empezar a instalar &lt;code&gt;rvm&lt;/code&gt;, si se usa &lt;code&gt;zsh&lt;/code&gt; se debe modificar el archivo
+&lt;code&gt;~/.zshrc&lt;/code&gt; de lo contrario mostrará un mensaje de error.&lt;/p&gt;
+
+&lt;p&gt;Antes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"/usr/local/bin:/usr/bin:/bin:/..."&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Después:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;export &lt;/span&gt;&lt;span class="nv"&gt;PATH&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$PATH&lt;/span&gt;&lt;span class="s2"&gt;:/usr/local/bin:/usr/bin:/..."&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Instalar rvm&lt;/h4&gt;
+
+&lt;p&gt;Para ello se usa &lt;code&gt;curl&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;curl &lt;span class="nt"&gt;-sSL&lt;/span&gt; https://get.rvm.io | bash &lt;span class="nt"&gt;-s&lt;/span&gt; stable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Al final se verá un mensaje que pide modificar el archivo &lt;code&gt;~/.bash_profile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Agregar la línea siguiente al final del archivo.
+&lt;code&gt;[[ -s &amp;quot;$HOME/.rvm/scripts/rvm&amp;quot; ]] &amp;amp;&amp;amp; source &amp;quot;$HOME/.rvm/scripts/rvm&amp;quot; # Load RVM into a shell session *as a function*&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Quedando así:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight viml"&gt;&lt;code&gt;#
+# &lt;span class="p"&gt;~&lt;/span&gt;/&lt;span class="p"&gt;.&lt;/span&gt;bash_profile
+#
+
+&lt;span class="p"&gt;[[&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;f&lt;/span&gt; &lt;span class="p"&gt;~&lt;/span&gt;&lt;span class="sr"&gt;/.bashrc ]] &amp;amp;&amp;amp; . ~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;bashrc
+
+&lt;span class="p"&gt;[[&lt;/span&gt; &lt;span class="p"&gt;-&lt;/span&gt;s &lt;span class="s2"&gt;"$HOME/.rvm/scripts/rvm"&lt;/span&gt; &lt;span class="p"&gt;]]&lt;/span&gt; &amp;amp;&amp;amp; &lt;span class="k"&gt;source&lt;/span&gt; &lt;span class="s2"&gt;"$HOME/.rvm/scripts/rvm"&lt;/span&gt; # Load RVM into &lt;span class="k"&gt;a&lt;/span&gt; &lt;span class="k"&gt;shell&lt;/span&gt; session *&lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="k"&gt;a&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;*
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Para que la consola actual reconozca el comando &lt;code&gt;rvm&lt;/code&gt;, hay que ejecutar la
+siguiente línea o cerrar la consola y abrir una nueva.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.bash_profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Con esto ya esta instalado &lt;code&gt;rvm&lt;/code&gt;, se puede verificar ejecutando el comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;rvm &lt;span class="nt"&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Instalar ruby&lt;/h4&gt;
+
+&lt;p&gt;Se ejecuta:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.rvm/scripts/rvm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Instalar &lt;code&gt;ruby&lt;/code&gt; usando &lt;code&gt;rvm&lt;/code&gt; permite tener diferentes versiones, sin tener
+conflicto entre ellas.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;rvm &lt;span class="nb"&gt;install &lt;/span&gt;ruby-2.2.3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Como usar rvm&lt;/h4&gt;
+
+&lt;p&gt;Al tener instalado &lt;code&gt;ruby&lt;/code&gt; usando &lt;code&gt;rvm&lt;/code&gt;, se puede tener una configuración específica por proyecto, por ejemplo:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;mkdir &lt;/span&gt;proyecto_uno &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd &lt;/span&gt;proyecto_uno
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'2.2.3'&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; .ruby-version
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'proyecto_uno'&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; .ruby-gemset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ahora si tiene un proyecto que está con &lt;code&gt;ruby-2.2.2&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;rvm &lt;span class="nb"&gt;install &lt;/span&gt;ruby-2.2.2
+&lt;span class="nb"&gt;mkdir &lt;/span&gt;proyecto_dos &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd &lt;/span&gt;proyecto_dos
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'2.2.2'&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; .ruby-version
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s1"&gt;'proyecto_dos'&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; .ruby-gemset
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Al momento de entrar al directorio del proyecto, se cargará la versión de &lt;code&gt;ruby&lt;/code&gt;
+que está en el archivo &lt;code&gt;.ruby-version&lt;/code&gt; y el &lt;code&gt;.ruby-gemset&lt;/code&gt; del proyecto, de
+está manera resulta más fácil llevar el control de los proyectos con diferentes
+versiones de &lt;code&gt;ruby&lt;/code&gt;, al igual que con las gemas, debido a que cada &lt;code&gt;.ruby-gemset&lt;/code&gt; es
+independiente del otro, de manera que cada proyecto tiene sus propias gemas,
+cuando se trabaja con rails.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Instalar nodejs con nvm</title>
+    <link rel="alternate" href="http://blog.url.com/2016/01/08/instalar-nodejs-con-nvm.html"/>
+    <id>http://blog.url.com/2016/01/08/instalar-nodejs-con-nvm.html</id>
+    <published>2016-01-08T16:46:00+00:00</published>
+    <updated>2021-08-19T01:31:22+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Node Version Manager&lt;/strong&gt; (nvm), permite instalar diferentes versiones de &lt;code&gt;nodejs&lt;/code&gt;
+sin tener conflicto entre ellas.&lt;/p&gt;
+
+&lt;h4&gt;Instalación de nvm&lt;/h4&gt;
+
+&lt;p&gt;Con &lt;code&gt;curl&lt;/code&gt; se descarga el archivo de instalación y se ejecuta.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;curl &lt;span class="nt"&gt;-o-&lt;/span&gt; https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;O con &lt;code&gt;wget&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;wget &lt;span class="nt"&gt;-qO-&lt;/span&gt; https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Para que la consola actual reconozca el comando &lt;code&gt;nvm&lt;/code&gt;, hay que ejecutar la
+siguiente línea o cerrar la consola y abrir una nueva.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.profile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Con esto ya esta instalado &lt;code&gt;nvm&lt;/code&gt;, se puede verificar ejecutando el comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;nvm &lt;span class="nt"&gt;--version&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4&gt;Instalación de nodejs&lt;/h4&gt;
+
+&lt;p&gt;Para instalar la versión estable de &lt;code&gt;nodejs&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;nvm &lt;span class="nb"&gt;install &lt;/span&gt;stable
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Para instalar una versión en específica de &lt;code&gt;nodejs&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;nvm &lt;span class="nb"&gt;install &lt;/span&gt;5.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El comando &lt;code&gt;nvm list&lt;/code&gt;, muesta las versiones de &lt;code&gt;nodejs&lt;/code&gt; que están instaladas.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/nvm/nvm-list.png"&gt;&lt;img src="/images/nvm/nvm-list.png" alt="nvm-list-horizontal-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Para cambiar de versión de &lt;code&gt;nodejs&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;nvm use 5.3.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El cambio solo tendrá efecto en la consola activa, para hacerlo permanente se
+tiene que asignar como la versión por defecto, para ellos se usa la opción
+&lt;code&gt;default&lt;/code&gt; seguido de la versión.&lt;/p&gt;
+
+&lt;p&gt;Asignar una versión de &lt;code&gt;nodejs&lt;/code&gt; por defecto.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;nvm &lt;span class="nb"&gt;alias &lt;/span&gt;default 5.3.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
+  <entry>
+    <title>Instalar y personalizar conky</title>
+    <link rel="alternate" href="http://blog.url.com/2016/01/07/instalar-y-personalizar-conky.html"/>
+    <id>http://blog.url.com/2016/01/07/instalar-y-personalizar-conky.html</id>
+    <published>2016-01-07T22:00:00+00:00</published>
+    <updated>2021-08-19T01:31:22+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Conky&lt;/strong&gt; es un monitor del sistema, con el cual se puede monitorear muchas
+variables, está licenciado bajo GPL y funciona en Linux y BSD.&lt;/p&gt;
+
+&lt;h4&gt;Instalar Conky&lt;/h4&gt;
+
+&lt;p&gt;Se usará el manejador de paquetes &lt;code&gt;pacman&lt;/code&gt;, este va a depender del
+sistema que uses.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;pacman &lt;span class="nt"&gt;-S&lt;/span&gt; conky
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Para iniciar &lt;code&gt;conky&lt;/code&gt; solo basta con ejecutar el comando:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;conky
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;La interfaz que muestra no se ve muy amigable :( como se ve en la imagen,
+la ventaja que se tiene es que &lt;code&gt;conky&lt;/code&gt; es muy configurable.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/conky/normal.png"&gt;&lt;img src="/images/conky/normal.png" alt="conky-default-vertical-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4&gt;Personalizar Conky&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Conky&lt;/strong&gt; tiene unas variables para poder personalizarlo ampliamente, aquí unos
+link donde se muestran las variables que se pueden usar.&lt;/p&gt;
+
+&lt;p&gt;1.- &lt;a href="http://conky.sourceforge.net/variables.html"&gt;Variables&lt;/a&gt;
+2.- &lt;a href="http://conky.sourceforge.net/config_settings.html"&gt;Más variables&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Actualmente así es como se mira &lt;code&gt;conky&lt;/code&gt; en mi computadora.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/conky/personalizada.png"&gt;&lt;img src="/images/conky/personalizada.png" alt="conky-perzonalizado-vertical-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Solo se necesita crear el archivo y agregar está configuración.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://gist.github.com/lesm/fb9f125b2a3400f1f878"&gt;configuración de conky&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;vim ~/.conkyrc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Puedes personalizar &lt;code&gt;conky&lt;/code&gt; a tu manera.&lt;/p&gt;
+
+&lt;h4&gt;Iniciar conky después de 10 segundos&lt;/h4&gt;
+
+&lt;p&gt;En esta nueva versión de &lt;strong&gt;Chakra Fermi&lt;/strong&gt; tuve un pequeño problema. Al agregar conky a las aplicaciones iniciadas automáticamente, &lt;code&gt;conky&lt;/code&gt; desaparece :( después de pasar la pantalla de login.&lt;/p&gt;
+
+&lt;p&gt;Para solucionar esto creé un pequeño script:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://gist.github.com/lesm/38a8f5f7713a78133fe3"&gt;script para iniciar conky&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Y en lugar de agregar a &lt;code&gt;conky&lt;/code&gt; a las aplicaciones iniciadas automáticamente se agrega el script el cual ejecuta a conky después de 10 segundos de haber iniciado el sistema.&lt;/p&gt;
+
+&lt;p&gt;El script se puede crear en:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;vim /opt/start_conky.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;O directamente en:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;vim /usr/bin/start_conky.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Al script se le tiene que dar permisos de ejecución.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo chmod&lt;/span&gt; +x /opt/start_conky.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content>
+  </entry>
+  <entry>
+    <title>Reiniciar entorno gráfico Xorg, ctrl + alt + backSpace</title>
+    <link rel="alternate" href="http://blog.url.com/2016/01/07/reiniciar-entorno-grafico-xorg-ctrl-alt-backspace.html"/>
+    <id>http://blog.url.com/2016/01/07/reiniciar-entorno-grafico-xorg-ctrl-alt-backspace.html</id>
+    <published>2016-01-07T03:00:00+00:00</published>
+    <updated>2021-08-19T01:31:22+00:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Activar el &amp;ldquo;reinicio&amp;rdquo; del entorno gráfico suele ser bastante útil, ningún
+sistema es perfecto, así que no podemos dar por hecho que la distro no llegará
+a colgarse.&lt;/p&gt;
+
+&lt;p&gt;Más cuando se lleva varios días sin apagar la computadora, y sabemos que para
+los usuarios de &lt;strong&gt;KDE&lt;/strong&gt; es un entorno pesado así que para evitar presionar el
+botón de apagado. Se puede activar el &amp;ldquo;reinicio&amp;rdquo; del entorno gráfico (Xorg),
+con la combinación de teclas.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight plaintext"&gt;&lt;code&gt;ctrl + alt + backspace
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;De está manera terminará la sesión del entorno gráfico y mostrará la ventana del login para volver a iniciar una sesión, esto es mucho más rápido que reiniciar el sistema.&lt;/p&gt;
+
+&lt;h4&gt;¿Cómo hacerlo?&lt;/h4&gt;
+
+&lt;p&gt;Se tiene que agregar la opción:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;Option &lt;span class="s2"&gt;"XkbOptions"&lt;/span&gt; &lt;span class="s2"&gt;"terminate:ctrl_alt_bksp"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Al archivo &lt;code&gt;00-keyboard.conf&lt;/code&gt; la siguiente configuración aplica para la distro
+&lt;strong&gt;Chakra Fermi&lt;/strong&gt; en otras distros el archivo es &lt;code&gt;10-keyboard.conf&lt;/code&gt; de hecho en
+la versión &lt;strong&gt;Chakra Euler&lt;/strong&gt; venía de esa manera.&lt;/p&gt;
+
+&lt;p&gt;El archivo se encuentra dentro del directorio:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;/etc/X11/xorg.conf.d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Editamos el archivo agregando la línea previamente mencionada.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;sudo &lt;/span&gt;vim /etc/X11/xorg.conf.d/00-keyboard.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Quedando el archivo de la siguiente manera.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="/images/xorg/keyboard.png"&gt;&lt;img src="/images/xorg/keyboard.png" alt="keyboard-horizontal-img" /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ahora solo queda reiniciar el sistema para poder ejecutar la siguiente combinación
+de teclas y ver que funcione.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;ctrl + alt + backspace
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Aveces también utilizo la combinación de teclas:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;ctrl + alt + F3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Para logearme sin entorno gráfico y hacer un reinicio, o matar el proceso por el
+cual se ha colgado la distro, esta opción es muy útil cuando se sabe que
+programa causo que el sistema se quedo colgado, ya que aveces se tiene abierto
+otros programas, documentos etc.
+Y volver abrir todo es mucho tiempo. :-(&lt;/p&gt;
+
+&lt;p&gt;La combinación para regresar al entorno gráfico es:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;ctrl + alt + F7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Ya que al hacer&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre class="highlight shell"&gt;&lt;code&gt;ctrl + alt + backspace
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Se perderá todo y se tendrá que volver abrir los archivos o programas en los cuales
+se esta trabajando.&lt;/p&gt;
+</content>
+  </entry>
+</feed>
