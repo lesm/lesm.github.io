@@ -9,6 +9,7 @@
 @include media-breakpoint-up(xl) {
   aside.container {
     display: block;
+    text-align: center;
   }
   nav.navbar {
     display: none;

@@ -1,4 +1,4 @@
-<aside class="container">
+<aside class="container sticky-top">
   <div class="d-flex flex-column align-items-center pb-4">
     <img src="<%= data.authors.first.photo %>" width="110" height="110" class="rounded-circle m-3" alt="Luis Silva">
     <a class="mb-3" href="/">
@@ -15,31 +15,18 @@
     </div>
   </div>
 
-  <div class="text-white pt-4">
-    <h4 class="">Artículos Recientes</h4>
+  <div class="text-white">
+    <h4 class="text-center pb-4">Artículos Recientes</h4>
     <ul class="list-unstyled">
       <li>
         <ol class="list-unstyled">
           <% blog.articles.first(15).each do |article| %>
-            <li class="list-inline-item p-1">
-              <%= link_to article.title, article %>
+            <li class="p-1">
               <span><%= article.date.strftime("%b %e") %></span>
+              <%= link_to article.title, article %>
             </li>
           <% end %>
         </ol>
-      </li>
-    </ul>
-    <h4 class="">Etiquetas</h4>
-    <ul class="list-unstyled">
-      <li>
-        <ul class="list-inline">
-          <% blog.tags.each do |tag, articles| %>
-            <li class="list-inline-item p-1">
-              <%= link_to "#{tag}", tag_path(tag) %>
-              <span><%= "(#{articles.size})" %></span>
-            </li>
-          <% end %>
-        </ul>
       </li>
     </ul>
   </div>

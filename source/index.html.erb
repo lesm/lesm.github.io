@@ -7,8 +7,8 @@ per_page: 4
   <div class="col-lg-10 pt-4">
     <div class="row">
       <% page_articles.each do |article| %>
-        <div class="col-md-6">
-          <div class="card border-light shadow-lg p-1 mb-4 rounded">
+        <div class="col-md-12">
+          <div class="card border-light shadow-lg p-1 mb-4 rounded bg-light">
             <div class="card-body">
               <h3 class="card-title">
                 <%= link_to article.title, article %>
@@ -24,10 +24,6 @@ per_page: 4
                 <time><%= article.date.strftime('%b %e %Y') %></time>
               </p>
               <p class="card-text"> <%= article.summary(250) %> </p>
-              <% link_to article, class: "card-link" do %>
-                Leer más...
-                <span aria-hidden="true">&raquo;</span>
-              <% end %>
             </div>
           </div>
         </div>

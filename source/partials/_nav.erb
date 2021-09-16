@@ -28,31 +28,9 @@
                   <li>
                     <ol class="list-unstyled">
                       <% blog.articles.first(15).each do |article| %>
-                        <li class="list-inline-item m-1">
+                        <li class="m-1">
                           <%= link_to article.title, article, class: "nav-item" %>
                           <span><%= article.date.strftime("%b %e") %></span>
-                        </li>
-                      <% end %>
-                    </ol>
-                  </li>
-                </ul>
-            </div>
-          </div>
-          <div class="d-flex justify-content-between">
-            <h5 class="">Etiquetas</h5>
-            <button class="navbar-toggler bg-success" type="button" data-toggle="collapse" data-target="#navbarNav3" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fas fa-caret-down"></i>
-            </button>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarNav3">
-            <div class="navbar-nav">
-                <ul class="list-unstyled">
-                  <li>
-                    <ol class="list-unstyled">
-                      <% blog.tags.each do |tag, articles| %>
-                        <li class="list-inline-item m-1">
-                          <%= link_to "#{tag}", tag_path(tag) %>
-                          <span><%= "(#{articles.size})" %></span>
                         </li>
                       <% end %>
                     </ol>
