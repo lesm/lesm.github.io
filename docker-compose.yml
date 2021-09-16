@@ -8,6 +8,7 @@ services:
       - ~/.gitconfig:/root/.gitconfig
     ports:
       - 4567:4567
+      - 35729:35729
     secrets:
       - host_ssh_key
 
